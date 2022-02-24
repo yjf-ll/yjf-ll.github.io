@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="理想不灭，心火不息。">
+    <meta name="author" content="Soul">
+    
+    <title>
+        
+            flutter_network_dio |
+        
+        Soul
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/user.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"yjf-ll.github.io","root":"/","language":"zh-CN","path":"search.xml"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":true,"init_open":false},"style":{"primary_color":"#0066CC","avatar":"/images/user.jpg","favicon":"/images/user.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":true,"scale":false},"first_screen":{"enable":true,"background_img":"/images/bg.svg","description":"不要温和的走进那个良夜。"},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":true}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+  </script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Soul
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >
+                                分类
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                关于
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories">分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">flutter_network_dio</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/user.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Soul</span>
+                        
+                            <span class="author-label">前端</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2022-02-25 01:08:22</span>
+        <span class="mobile">2022-02-25 01:08</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/Flutter/">Flutter</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Flutter/">Flutter</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Dio/">Dio</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/">网络请求</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fas fa-file-word"></i>&nbsp;<span>1.1k 字</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fas fa-clock"></i>&nbsp;<span>5 分钟</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="Flutter-amp-Dio-网络交互"><a href="#Flutter-amp-Dio-网络交互" class="headerlink" title="Flutter &amp; Dio 网络交互"></a>Flutter &amp; Dio 网络交互</h1><h5 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h5><blockquote>
+<p>flutter做网络请求目前最火的就是Dio库了，那么如何使用该库呢，怎么进行一个通用的封装呢，封装技巧能复用嘛？请看下文：</p>
+</blockquote>
+<h5 id="一：安装dio库-dio-4-0-4-官方地址传送门：https-github-com-flutterchina-dio-blob-master-README-ZH-md"><a href="#一：安装dio库-dio-4-0-4-官方地址传送门：https-github-com-flutterchina-dio-blob-master-README-ZH-md" class="headerlink" title="一：安装dio库 (dio: ^4.0.4) 官方地址传送门：https://github.com/flutterchina/dio/blob/master/README-ZH.md"></a>一：安装dio库 (dio: ^4.0.4) 官方地址传送门：<a class="link"   target="_blank" rel="noopener" href="https://github.com/flutterchina/dio/blob/master/README-ZH.md" >https://github.com/flutterchina/dio/blob/master/README-ZH.md<i class="fas fa-external-link-alt"></i></a></h5><blockquote>
+<p>flutter pub add dio</p>
+</blockquote>
+<h5 id="二：dio的基本使用"><a href="#二：dio的基本使用" class="headerlink" title="二：dio的基本使用"></a>二：dio的基本使用</h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:dio/dio.dart&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//  这里使用的是网易云api，感谢开源感谢分享！官方地址传送门：</span></span><br><span class="line"><span class="comment">//	https://binaryify.github.io/NeteaseCloudMusicApi/#/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> send() <span class="keyword">async</span> &#123;</span><br><span class="line">	<span class="keyword">final</span> query = &#123;<span class="string">&#x27;id&#x27;</span>: <span class="number">186016</span>, <span class="string">&#x27;limit&#x27;</span>: <span class="number">1</span>&#125;;</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//	实例化Dio，传入参数做一个get请求</span></span><br><span class="line">  		<span class="keyword">final</span> result = <span class="keyword">await</span> Dio().<span class="keyword">get</span>(</span><br><span class="line">    		<span class="string">&#x27;http://123.207.32.32:9001/comment/music&#x27;</span>,</span><br><span class="line">    		queryParameters: query,</span><br><span class="line">  		);</span><br><span class="line">        <span class="comment">//	打印结果</span></span><br><span class="line">  		<span class="built_in">print</span>(result);</span><br><span class="line">	&#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="comment">//	打印异常</span></span><br><span class="line"> 		<span class="built_in">print</span>(e);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用dio的步骤就是，实例化一个Dio，使用该实例做某些请求（也许会传入一些参数），那么问题来了，每个页面都要生成这样的一个实例嘛？或者说有方法可以更好的管理dio，答案是有的，各位看官请继续：</p>
+</blockquote>
+<h5 id="三：dio的基本封装"><a href="#三：dio的基本封装" class="headerlink" title="三：dio的基本封装"></a>三：dio的基本封装</h5><blockquote>
+<p>一般来说，主要是对请求的配置信息，和网络拦截器做一个通用的封装，这边采取的思路是使用一个类来保存dio的实例，然后全局都可以使用该实例进行网络请求</p>
+</blockquote>
+<ul>
+<li><p>编写网络配置类</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NetworkConfig</span> </span>&#123;</span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">const</span> <span class="built_in">String</span> baseUrl = <span class="string">&#x27;http://123.207.32.32:9001/&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">const</span> <span class="built_in">int</span> sendTimeout = <span class="number">8000</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">const</span> <span class="built_in">int</span> connectTimeout = <span class="number">8000</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">const</span> <span class="built_in">int</span> receiveTimeout = <span class="number">8000</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编写接口工具类（保存常用的接口，好管理）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class EndPoint &#123;</span><br><span class="line">  static const String comment = &#x27;comment/music&#x27;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>编写dio的拦截器</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//	拦截器可以做很多事情，具体可以看一下官方文档</span></span><br><span class="line"><span class="comment">//  假如我们在请求的时候需要添加token，那么就可以在onRequest里面进行处理</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NetworkIntercept</span> <span class="keyword">extends</span> <span class="title">Interceptor</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> onRequest(RequestOptions options, RequestInterceptorHandler handler) &#123;</span><br><span class="line">    <span class="comment">//  这里的AppCache缓存类在我的上一篇文章里有讲，有需要可以查看</span></span><br><span class="line">    <span class="comment">//	从缓存中添加token，这里只是举一个例子，也有其他方式添加token</span></span><br><span class="line">    <span class="keyword">final</span> <span class="built_in">String?</span> token = AppCache.token;</span><br><span class="line">    <span class="keyword">if</span> (token != <span class="keyword">null</span>) &#123;</span><br><span class="line">      options.headers[<span class="string">&#x27;token&#x27;</span>] = token;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">super</span>.onRequest(options, handler);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> onResponse(Response response, ResponseInterceptorHandler handler) &#123;</span><br><span class="line">      <span class="keyword">super</span>.onResponse(response, handler);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> onError(DioError err, ErrorInterceptorHandler handler) &#123;</span><br><span class="line">    <span class="keyword">super</span>.onError(err, handler);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>编写保存dio的单例类，</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:dio/dio.dart&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:flutter_network/cache/cache.dart&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:flutter_network/network/network_config.dart&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Network</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> Dio dio;</span><br><span class="line"></span><br><span class="line">  Network._(&#123;<span class="keyword">required</span> <span class="keyword">this</span>.dio&#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">factory</span> Network._create(Dio dio) =&gt; Network._(dio: dio);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> Network? _client;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">void</span> init() &#123;</span><br><span class="line">    <span class="keyword">if</span> (_client == <span class="keyword">null</span>) &#123;</span><br><span class="line">      <span class="comment">//  创建配置信息</span></span><br><span class="line">      <span class="keyword">final</span> BaseOptions options = BaseOptions(</span><br><span class="line">        baseUrl: NetworkConfig.baseUrl,</span><br><span class="line">        sendTimeout: NetworkConfig.sendTimeout,</span><br><span class="line">        connectTimeout: NetworkConfig.connectTimeout,</span><br><span class="line">        receiveTimeout: NetworkConfig.receiveTimeout,</span><br><span class="line">      );</span><br><span class="line"></span><br><span class="line">      <span class="comment">//  创建dio实例，并且添加配置信息</span></span><br><span class="line">      <span class="keyword">final</span> Dio dio = Dio(options);</span><br><span class="line"></span><br><span class="line">      <span class="comment">//  对dio添加上面的拦截器</span></span><br><span class="line">      dio.interceptors.add(NetworkIntercept());</span><br><span class="line"></span><br><span class="line">      <span class="comment">//  创建network实例并保存</span></span><br><span class="line">      _client = Network._create(dio);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//  对外返回处理过的dio实例</span></span><br><span class="line">  <span class="keyword">static</span> Dio <span class="keyword">get</span> instance =&gt; _client!.dio;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>封装后需要在main函数里面进行一次初始化，代码如下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:flutter/material.dart&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:flutter_network/cache/cache.dart&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:flutter_network/network/network.dart&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:flutter_network/view/home_page.dart&#x27;</span>;</span><br><span class="line"></span><br><span class="line">Future&lt;<span class="keyword">void</span>&gt; main() <span class="keyword">async</span> &#123;</span><br><span class="line">  WidgetsFlutterBinding.ensureInitialized();</span><br><span class="line">  <span class="comment">//  初始化缓存单例类</span></span><br><span class="line">  <span class="comment">//  这里的AppCache缓存类在我的上一篇文章里有讲，有需要可以查看</span></span><br><span class="line">  <span class="keyword">await</span> AppCache.init();</span><br><span class="line">  <span class="comment">//  初始化网络单例类</span></span><br><span class="line">  Network.init();</span><br><span class="line">  runApp(MyApp());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> MaterialApp(</span><br><span class="line">      theme: ThemeData(</span><br><span class="line">        primarySwatch: Colors.blue,</span><br><span class="line">      ),</span><br><span class="line">      home: HomePage(),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>那么封装好后，我们应该如何使用呢？简单，上代码：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:dio/dio.dart&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:flutter/material.dart&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:flutter_network/network/end_point.dart&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:flutter_network/network/network.dart&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HomePage</span> <span class="keyword">extends</span> <span class="title">StatefulWidget</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> HomePage(&#123;Key? key&#125;) : <span class="keyword">super</span>(key: key);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  _HomePageState createState() =&gt; _HomePageState();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_HomePageState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">HomePage</span>&gt; </span>&#123;</span><br><span class="line">  <span class="comment">//  引用网络单例类里面封装好的dio</span></span><br><span class="line">  <span class="keyword">final</span> Dio dio = Network.instance;</span><br><span class="line"></span><br><span class="line">  Future&lt;<span class="keyword">void</span>&gt; send() <span class="keyword">async</span> &#123;</span><br><span class="line">    <span class="keyword">final</span> query = &#123;</span><br><span class="line">      <span class="string">&#x27;id&#x27;</span>: <span class="number">186016</span>,</span><br><span class="line">      <span class="string">&#x27;limit&#x27;</span>: <span class="number">1</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">final</span> result = <span class="keyword">await</span> dio.<span class="keyword">get</span>(</span><br><span class="line">        EndPoint.comment,</span><br><span class="line">        queryParameters: query,</span><br><span class="line">      );</span><br><span class="line">      <span class="built_in">print</span>(result);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">      <span class="built_in">print</span>(e);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">      appBar: AppBar(</span><br><span class="line">        title: Text(<span class="string">&#x27;Network&#x27;</span>),</span><br><span class="line">        centerTitle: <span class="keyword">true</span>,</span><br><span class="line">      ),</span><br><span class="line">      body: Center(</span><br><span class="line">        child: FloatingActionButton(</span><br><span class="line">          onPressed: send,</span><br><span class="line">          child: Text(<span class="string">&#x27;点击&#x27;</span>),</span><br><span class="line">        ),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>至此，dio的简单封装教程就结束了，有啥不懂得可以在评论区留言，或者有更好的方法也可以一起分享，感谢看完的铁铁们！：） 封装的技巧都是通用的，活学活用才是王道！</p>
+</li>
+<li><p>完整demo地址：<a class="link"   target="_blank" rel="noopener" href="https://github.com/yjf-ll/flutter_dio_network" >https://github.com/yjf-ll/flutter_dio_network<i class="fas fa-external-link-alt"></i></a></p>
+</li>
+</ul>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>本文标题：flutter_network_dio</li>
+        <li>本文作者：Soul</li>
+        <li>创建时间：2022-02-25 01:08:22</li>
+        <li>
+            本文链接：https://keep.xpoet.cn/2022/02/25/flutter-network-dio/
+        </li>
+        <li>
+            版权声明：本博客所有文章除特别声明外，均采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> 许可协议。转载请注明出处！
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/Flutter/">#Flutter</a>&nbsp;
+                    </li>
+                
+                    <li class="tag-item">
+                        <a href="/tags/Dio/">#Dio</a>&nbsp;
+                    </li>
+                
+                    <li class="tag-item">
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/">#网络请求</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2022/02/25/flutter-cache/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">flutter_cache</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;评论</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '7458a5fa2e21ded6c4bc',
+                    clientSecret: '11da81ded6c42913e4a6e93245d9682d6b87c514',
+                    repo: 'hexo_blog_comment',
+                    owner: 'yjf-ll',
+                    admin: ['yjf-ll'],
+                    id: __gitalk__pathname,
+                    language: 'zh-CN'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>
+              -
+            
+            2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Soul</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        访问人数&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        总访问量&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Flutter-amp-Dio-%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92"><span class="nav-text">Flutter &amp; Dio 网络交互</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80%EF%BC%9A%E5%AE%89%E8%A3%85dio%E5%BA%93-dio-4-0-4-%E5%AE%98%E6%96%B9%E5%9C%B0%E5%9D%80%E4%BC%A0%E9%80%81%E9%97%A8%EF%BC%9Ahttps-github-com-flutterchina-dio-blob-master-README-ZH-md"><span class="nav-text">一：安装dio库 (dio: ^4.0.4) 官方地址传送门：https:&#x2F;&#x2F;github.com&#x2F;flutterchina&#x2F;dio&#x2F;blob&#x2F;master&#x2F;README-ZH.md</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8C%EF%BC%9Adio%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-text">二：dio的基本使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%89%EF%BC%9Adio%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%B0%81%E8%A3%85"><span class="nav-text">三：dio的基本封装</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+
+    
+<script src="/js/code-copy.js"></script>
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>
