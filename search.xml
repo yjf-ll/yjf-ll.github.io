@@ -56,15 +56,6 @@
       </tags>
   </entry>
   <entry>
-    <title>react</title>
-    <url>/2022/02/25/react/</url>
-    <content><![CDATA[<p>测试下自动化<br>测试下自动化<br>测试下自动化<br>测试下自动化</p>
-]]></content>
-      <tags>
-        <tag>React</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>flutter_cache</title>
     <url>/2022/02/25/flutter-cache/</url>
     <content><![CDATA[<h1 id="flutter-cache"><a href="#flutter-cache" class="headerlink" title="flutter_cache"></a>flutter_cache</h1><h4 id="一：前言"><a href="#一：前言" class="headerlink" title="一：前言"></a>一：前言</h4><p>在项目开发中有一些数据是经常使用的（比如账号，token等），并且希望重新打开app数据也还在，所有这个时候就可以把一些数据放在缓存中保存起来，下次就可以直接从缓存中获取了，借此，封装一个缓存类还是很有必要的，个人封装思路如下:</p>
@@ -101,6 +92,15 @@
         <tag>Cache</tag>
         <tag>shared_preferences</tag>
         <tag>缓存</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>react</title>
+    <url>/2022/02/25/react/</url>
+    <content><![CDATA[<p>测试下自动化<br>测试下自动化<br>测试下自动化<br>测试下自动化<br>参加首都埃皮和从从赛车<br>参加首都埃皮和从从赛车<br>参加首都埃皮和从从赛车<br>参加首都埃皮和从从赛车<br>参加首都埃皮和从从赛车<br>参加首都埃皮和从从赛车<br>参加首都埃皮和从从赛车<br>参加首都埃皮和从从赛车丹麦<br>参加首都埃皮和从从赛车丹麦<br>参加首都埃皮和从从赛车丹麦<br>参加首都埃皮和从从赛车丹麦<br>参加首都埃皮和从从赛车丹麦<br>参加首都埃皮和从从赛车丹麦</p>
+]]></content>
+      <tags>
+        <tag>React</tag>
       </tags>
   </entry>
 </search>
