@@ -5,11 +5,11 @@ language: node_js
 
 # Node.js 版本
 node_js:
-  - 16.13.0
+  - 16
 
 branches:
   only:
-    - master                      # 只有 main 分支检出更改才触发 CI
+    - main                      # 只有 main 分支检出更改才触发 CI
 
 before_install:
   - export TZ='Asia/Shanghai'   # 配置时区为东八区 UTC+8
@@ -25,7 +25,7 @@ script:
 
 deploy:
   on:
-    branch: master                # 工作分支
+    branch: main                # 工作分支
   strategy: git
   provider: pages
   skip_cleanup: true            # 跳过清理
