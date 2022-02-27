@@ -42,8 +42,11 @@
   <entry>
     <title>react</title>
     <url>/2022/02/25/react/</url>
-    <content><![CDATA[<p>AAAAAAAAAAAAAAAAAAAAAAAAAAAA<br>好像参赛洒出胡从啥从撒成功洒出<br>好像参赛洒出胡从啥从<br>好像参赛洒出胡从啥从撒成功洒出<br>好像参赛洒出胡从啥从撒成功洒出<br>AAAAAAAAAAAAAAAAAAAAAAAAAAAA</p>
+    <content><![CDATA[<p>AAAAAAAAAAAAAAAAAAAAAAAAAAAA<br>好像参赛洒出胡从啥从撒成功洒出<br>好像参赛洒出胡从啥从撒成功洒出<br>好像参赛洒出胡从啥从撒成功洒出<br>好像参赛洒出胡从啥从撒成功洒出<br>好像参赛洒出胡从啥从撒成功洒出<br>好像参赛洒出胡从啥从撒成功洒出</p>
 ]]></content>
+      <categories>
+        <category>React</category>
+      </categories>
       <tags>
         <tag>React</tag>
       </tags>
@@ -101,6 +104,50 @@
         <tag>Flutter</tag>
         <tag>Dio</tag>
         <tag>网络请求</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>react-axios-封装与使用</title>
+    <url>/2022/02/26/react-axios-%E5%B0%81%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h5 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h5><blockquote>
+<p>在接触dio库和axios库后，感觉网络请求的操作基本都差不多，主要思路都是对库的网络请求实例进行通用的配置以及添加一些拦截器，然后对配置后的实例再封装一层通用的请求函数，这样做的好处在于随时可以更换底层网络请求库，再也不怕网络请求库不维护或者有重大bug啦！！！虽然这种概率极小，，，</p>
+</blockquote>
+<h5 id="一：封装思路如下"><a href="#一：封装思路如下" class="headerlink" title="一：封装思路如下"></a>一：封装思路如下</h5><ul>
+<li>生成一个axios实例，传入通用的配置</li>
+<li>添加请求拦截器</li>
+<li>封装请求函数</li>
+<li>基本使用</li>
+</ul>
+<h5 id="二：代码演示"><a href="#二：代码演示" class="headerlink" title="二：代码演示"></a>二：代码演示</h5><blockquote>
+<p>生成axios实例并添加通用的配置</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">const instance = axios.create(&#123;</span><br><span class="line">  baseURL: &#x27;https://www.xxx.api&#x27;,</span><br><span class="line">  timeout: 8000,</span><br><span class="line">  headers: &#123;</span><br><span class="line">    &#x27;xxx-ffff&#x27;: &#x27;fa&#x27;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>添加拦截器，请求的时候判断是否需要添加token，得到结果后，假如code不是200或者0或2000，就判断该结果不是成功的，就使用throw把结果当成错误抛出</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">instance.interceptors.request.use((config) =&gt; &#123;</span><br><span class="line">  const token = getToken();</span><br><span class="line">  if(token !== null &amp;&amp; token !== undefined) &#123;</span><br><span class="line">    config.headers[&#x27;boarding-pass&#x27;] = token;</span><br><span class="line">  &#125;</span><br><span class="line">  return config;</span><br><span class="line">&#125;, error =&gt; &#123;</span><br><span class="line">  return error;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">instance.interceptors.response.use(res =&gt; &#123;</span><br><span class="line">  const &#123;code&#125; = res.data;</span><br><span class="line">  if(code !== 200 &amp;&amp; code !== 0 &amp;&amp; code !== 2000) &#123;</span><br><span class="line">    console.log(&#x27;请求成功，但被拦截的数据&#x27;,res)</span><br><span class="line">    throw res.data;</span><br><span class="line">  &#125;</span><br><span class="line">  return res.data;</span><br><span class="line">&#125;, error =&gt; &#123;</span><br><span class="line">  return error;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p> 对该实例封装一层通用的请求方法，我练习的接口比较简单，所以只添加三个参数，也可以添加其他的参数，具体看你！</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">function request(method, url, params) &#123;</span><br><span class="line">  return instance.request(&#123;</span><br><span class="line">    method: method,</span><br><span class="line">    url: url,</span><br><span class="line">    params: params</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export &#123;</span><br><span class="line">  request</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>好，封装该请求函数后，怎么使用就比较简单了</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//	我自己会把具体请求再封装一层，就不会在UI组件里面搞得乱乱的了，也能在其他组件里复用该请求方法，</span><br><span class="line">function apiSignIn(params) &#123;</span><br><span class="line">  return request(</span><br><span class="line">    &#x27;post&#x27;,</span><br><span class="line">    &#x27;/user/login&#x27;,</span><br><span class="line">    params,</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export &#123;apiSignIn&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//	真正使用的地方如下：</span><br><span class="line">function signIn() &#123;</span><br><span class="line">  const query = &#123;</span><br><span class="line">  	userName: &#x27;xxxxxxx&#x27;,</span><br><span class="line">  	password: &#x27;xxxxxxx&#x27;</span><br><span class="line">  &#125;</span><br><span class="line">  apiSignIn(</span><br><span class="line">  	query</span><br><span class="line">  ).then(res =&gt; &#123;</span><br><span class="line">    console.log(res)</span><br><span class="line">  &#125;).catch(err =&gt; &#123;</span><br><span class="line">    console.log(err)</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line">&lt;Button</span><br><span class="line">  type=&quot;primary&quot;</span><br><span class="line">  size=&#123;&quot;large&quot;&#125;</span><br><span class="line">  onClick=&#123;() =&gt; signIn()&#125;</span><br><span class="line">&gt;</span><br><span class="line">    SignIn</span><br><span class="line">&lt;/Button&gt;</span><br></pre></td></tr></table></figure>
+
+<h6 id="ok，到这里就over了，感谢看完的小伙伴，有更好的方式也可以交流哈，："><a href="#ok，到这里就over了，感谢看完的小伙伴，有更好的方式也可以交流哈，：" class="headerlink" title="ok，到这里就over了，感谢看完的小伙伴，有更好的方式也可以交流哈，：)"></a>ok，到这里就over了，感谢看完的小伙伴，有更好的方式也可以交流哈，：)</h6>]]></content>
+      <categories>
+        <category>React</category>
+      </categories>
+      <tags>
+        <tag>React</tag>
+        <tag>axios</tag>
+        <tag>网络请求封装</tag>
       </tags>
   </entry>
 </search>

@@ -9,7 +9,7 @@
     
     <title>
         
-            react |
+            react-axios-封装与使用 |
         
         Soul
     </title>
@@ -150,7 +150,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">react</span>
+            <span class="title-hover-animation">react-axios-封装与使用</span>
         </div>
 
         
@@ -169,8 +169,8 @@
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fas fa-edit"></i>&nbsp;
-        <span class="pc">2022-02-25 01:27:59</span>
-        <span class="mobile">2022-02-25 01:27</span>
+        <span class="pc">2022-02-26 23:47:36</span>
+        <span class="mobile">2022-02-26 23:47</span>
     </span>
     
         <span class="article-categories article-meta-item">
@@ -193,6 +193,14 @@
                         <a href="/tags/React/">React</a>&nbsp;
                     </li>
                 
+                    <li>
+                        | <a href="/tags/axios/">axios</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82%E5%B0%81%E8%A3%85/">网络请求封装</a>&nbsp;
+                    </li>
+                
             </ul>
         </span>
     
@@ -200,12 +208,12 @@
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fas fa-file-word"></i>&nbsp;<span>91 字</span>
+            <i class="fas fa-file-word"></i>&nbsp;<span>598 字</span>
         </span>
     
     
         <span class="article-min2read article-meta-item">
-            <i class="fas fa-clock"></i>&nbsp;<span>1 分钟</span>
+            <i class="fas fa-clock"></i>&nbsp;<span>2 分钟</span>
         </span>
     
     
@@ -221,19 +229,49 @@
         
 
         <div class="article-content markdown-body">
-            <p>AAAAAAAAAAAAAAAAAAAAAAAAAAAA<br>好像参赛洒出胡从啥从撒成功洒出<br>好像参赛洒出胡从啥从撒成功洒出<br>好像参赛洒出胡从啥从撒成功洒出<br>好像参赛洒出胡从啥从撒成功洒出<br>好像参赛洒出胡从啥从撒成功洒出<br>好像参赛洒出胡从啥从撒成功洒出</p>
+            <h5 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h5><blockquote>
+<p>在接触dio库和axios库后，感觉网络请求的操作基本都差不多，主要思路都是对库的网络请求实例进行通用的配置以及添加一些拦截器，然后对配置后的实例再封装一层通用的请求函数，这样做的好处在于随时可以更换底层网络请求库，再也不怕网络请求库不维护或者有重大bug啦！！！虽然这种概率极小，，，</p>
+</blockquote>
+<h5 id="一：封装思路如下"><a href="#一：封装思路如下" class="headerlink" title="一：封装思路如下"></a>一：封装思路如下</h5><ul>
+<li>生成一个axios实例，传入通用的配置</li>
+<li>添加请求拦截器</li>
+<li>封装请求函数</li>
+<li>基本使用</li>
+</ul>
+<h5 id="二：代码演示"><a href="#二：代码演示" class="headerlink" title="二：代码演示"></a>二：代码演示</h5><blockquote>
+<p>生成axios实例并添加通用的配置</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const instance = axios.create(&#123;</span><br><span class="line">  baseURL: &#x27;https://www.xxx.api&#x27;,</span><br><span class="line">  timeout: 8000,</span><br><span class="line">  headers: &#123;</span><br><span class="line">    &#x27;xxx-ffff&#x27;: &#x27;fa&#x27;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
+<blockquote>
+<p>添加拦截器，请求的时候判断是否需要添加token，得到结果后，假如code不是200或者0或2000，就判断该结果不是成功的，就使用throw把结果当成错误抛出</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">instance.interceptors.request.use((config) =&gt; &#123;</span><br><span class="line">  const token = getToken();</span><br><span class="line">  if(token !== null &amp;&amp; token !== undefined) &#123;</span><br><span class="line">    config.headers[&#x27;boarding-pass&#x27;] = token;</span><br><span class="line">  &#125;</span><br><span class="line">  return config;</span><br><span class="line">&#125;, error =&gt; &#123;</span><br><span class="line">  return error;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">instance.interceptors.response.use(res =&gt; &#123;</span><br><span class="line">  const &#123;code&#125; = res.data;</span><br><span class="line">  if(code !== 200 &amp;&amp; code !== 0 &amp;&amp; code !== 2000) &#123;</span><br><span class="line">    console.log(&#x27;请求成功，但被拦截的数据&#x27;,res)</span><br><span class="line">    throw res.data;</span><br><span class="line">  &#125;</span><br><span class="line">  return res.data;</span><br><span class="line">&#125;, error =&gt; &#123;</span><br><span class="line">  return error;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p> 对该实例封装一层通用的请求方法，我练习的接口比较简单，所以只添加三个参数，也可以添加其他的参数，具体看你！</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function request(method, url, params) &#123;</span><br><span class="line">  return instance.request(&#123;</span><br><span class="line">    method: method,</span><br><span class="line">    url: url,</span><br><span class="line">    params: params</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export &#123;</span><br><span class="line">  request</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>好，封装该请求函数后，怎么使用就比较简单了</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//	我自己会把具体请求再封装一层，就不会在UI组件里面搞得乱乱的了，也能在其他组件里复用该请求方法，</span><br><span class="line">function apiSignIn(params) &#123;</span><br><span class="line">  return request(</span><br><span class="line">    &#x27;post&#x27;,</span><br><span class="line">    &#x27;/user/login&#x27;,</span><br><span class="line">    params,</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export &#123;apiSignIn&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">//	真正使用的地方如下：</span><br><span class="line">function signIn() &#123;</span><br><span class="line">  const query = &#123;</span><br><span class="line">  	userName: &#x27;xxxxxxx&#x27;,</span><br><span class="line">  	password: &#x27;xxxxxxx&#x27;</span><br><span class="line">  &#125;</span><br><span class="line">  apiSignIn(</span><br><span class="line">  	query</span><br><span class="line">  ).then(res =&gt; &#123;</span><br><span class="line">    console.log(res)</span><br><span class="line">  &#125;).catch(err =&gt; &#123;</span><br><span class="line">    console.log(err)</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line">&lt;Button</span><br><span class="line">  type=&quot;primary&quot;</span><br><span class="line">  size=&#123;&quot;large&quot;&#125;</span><br><span class="line">  onClick=&#123;() =&gt; signIn()&#125;</span><br><span class="line">&gt;</span><br><span class="line">    SignIn</span><br><span class="line">&lt;/Button&gt;</span><br></pre></td></tr></table></figure>
+
+<h6 id="ok，到这里就over了，感谢看完的小伙伴，有更好的方式也可以交流哈，："><a href="#ok，到这里就over了，感谢看完的小伙伴，有更好的方式也可以交流哈，：" class="headerlink" title="ok，到这里就over了，感谢看完的小伙伴，有更好的方式也可以交流哈，：)"></a>ok，到这里就over了，感谢看完的小伙伴，有更好的方式也可以交流哈，：)</h6>
         </div>
 
         
             <div class="post-copyright-info">
                 <div class="article-copyright-info-container">
     <ul>
-        <li>本文标题：react</li>
+        <li>本文标题：react-axios-封装与使用</li>
         <li>本文作者：Soul</li>
-        <li>创建时间：2022-02-25 01:27:59</li>
+        <li>创建时间：2022-02-26 23:47:36</li>
         <li>
-            本文链接：https://keep.xpoet.cn/2022/02/25/react/
+            本文链接：https://keep.xpoet.cn/2022/02/26/react-axios-封装与使用/
         </li>
         <li>
             版权声明：本博客所有文章除特别声明外，均采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -251,35 +289,28 @@
                         <a href="/tags/React/">#React</a>&nbsp;
                     </li>
                 
+                    <li class="tag-item">
+                        <a href="/tags/axios/">#axios</a>&nbsp;
+                    </li>
+                
+                    <li class="tag-item">
+                        <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82%E5%B0%81%E8%A3%85/">#网络请求封装</a>&nbsp;
+                    </li>
+                
             </ul>
         
 
         
             <div class="article-nav">
                 
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2022/02/26/react-axios-%E5%B0%81%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">react-axios-封装与使用</span>
-                                <span class="post-nav-item">上一篇</span>
-                            </span>
-                        </a>
-                    </div>
-                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2022/02/25/flutter-network-dio/"
+                           href="/2022/02/25/react/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">flutter_network_dio</span>
+                                <span class="post-nav-title-item">react</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -466,7 +497,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        
+        <ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%89%8D%E8%A8%80%EF%BC%9A"><span class="nav-text">前言：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80%EF%BC%9A%E5%B0%81%E8%A3%85%E6%80%9D%E8%B7%AF%E5%A6%82%E4%B8%8B"><span class="nav-text">一：封装思路如下</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8C%EF%BC%9A%E4%BB%A3%E7%A0%81%E6%BC%94%E7%A4%BA"><span class="nav-text">二：代码演示</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#ok%EF%BC%8C%E5%88%B0%E8%BF%99%E9%87%8C%E5%B0%B1over%E4%BA%86%EF%BC%8C%E6%84%9F%E8%B0%A2%E7%9C%8B%E5%AE%8C%E7%9A%84%E5%B0%8F%E4%BC%99%E4%BC%B4%EF%BC%8C%E6%9C%89%E6%9B%B4%E5%A5%BD%E7%9A%84%E6%96%B9%E5%BC%8F%E4%B9%9F%E5%8F%AF%E4%BB%A5%E4%BA%A4%E6%B5%81%E5%93%88%EF%BC%8C%EF%BC%9A"><span class="nav-text">ok，到这里就over了，感谢看完的小伙伴，有更好的方式也可以交流哈，：)</span></a></li></ol></li></ol>
     </div>
 </div>
         </aside>
