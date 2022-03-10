@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="理想不灭，心火不息。">
+    <meta name="author" content="Soul">
+    
+    <title>
+        
+            揭开js深浅拷贝的面纱 |
+        
+        Soul
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/user.jpg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"yjf-ll.github.io","root":"/","language":"zh-CN","path":"search.xml"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":true,"init_open":false},"style":{"primary_color":"#0066CC","avatar":"/images/user.jpg","favicon":"/images/user.jpg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":true,"scale":false},"first_screen":{"enable":true,"background_img":"/images/bg.svg","description":"不要温和的走进那个良夜。"},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":true}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+  </script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Soul
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >
+                                分类
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                关于
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories">分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">揭开js深浅拷贝的面纱</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/user.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Soul</span>
+                        
+                            <span class="author-label">前端</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2022-03-10 21:24:05</span>
+        <span class="mobile">2022-03-10 21:24</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/JavaScript/">JavaScript</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/JavaScript/">JavaScript</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">引用类型</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/">深浅拷贝</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fas fa-file-word"></i>&nbsp;<span>940 字</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fas fa-clock"></i>&nbsp;<span>3 分钟</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h5 id="一：前言"><a href="#一：前言" class="headerlink" title="一：前言"></a>一：前言</h5><blockquote>
+<p>js的数据分为基本类型和引用类型，基本类型的值是保存在栈内存中，引用类型的值是保存在堆内存中，并且用变量保存一个引用类型值，其实是保存指向该值的一个指针，因此对复制后的对象进行一些操作，也会影响被复制的对象，可以看一个简单的例子</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let a = &#123;&#125;</span><br><span class="line">let b = a</span><br><span class="line">b.name = &#x27;soul&#x27;</span><br><span class="line">console.log(a.name)</span><br><span class="line">//  soul</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>解析：因为a保存的是{}在内存中的地址指针，所以b&#x3D;a，也就相当于b保存的也是{}在内存中的地址指针，所以我们对b进行一些操作，也会影响a</p>
+</blockquote>
+<ul>
+<li><p>基本类型</p>
+<ul>
+<li>string</li>
+<li>number</li>
+<li>boolean</li>
+<li>undefined</li>
+<li>null</li>
+<li>symbol</li>
+</ul>
+</li>
+<li><p>引用类型</p>
+<ul>
+<li>function</li>
+<li>array</li>
+<li>object</li>
+</ul>
+</li>
+</ul>
+<h5 id="二：浅拷贝"><a href="#二：浅拷贝" class="headerlink" title="二：浅拷贝"></a>二：浅拷贝</h5><p>简单的说，浅拷贝就是新建一个对象（在内存中开辟了新的地盘），来保存我们目标对象的值，这样，我们操作拷贝后的值，就不会影响最开始的对象了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let a = &#123;&#125;</span><br><span class="line">let b = clone(a)</span><br><span class="line">b.name = &#x27;soul&#x27;</span><br><span class="line">console.log(a.name)</span><br><span class="line">//  undefined</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，我们修改拷贝后的对象b，并不会影响原对象a的值，实现方法如下，然后该方法主要的思路是，假设obj是数组，那就新建一个数组通过遍历把所有的数据复制一边，假设是对象，也把对象的值复制一边返回出去，如果是其他类型的值，就直接返回</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">  function clone(obj) &#123;</span><br><span class="line">    if(obj == null || obj instanceof Function) return obj;</span><br><span class="line">    if(obj instanceof Array) &#123;</span><br><span class="line">      let newObj = []</span><br><span class="line">      obj.forEach(item =&gt; newObj.push(item))</span><br><span class="line">      return newObj</span><br><span class="line">    &#125;</span><br><span class="line">    if(obj instanceof Object) &#123;</span><br><span class="line">      let newObj = &#123;&#125;</span><br><span class="line">      for(let item in obj) &#123;</span><br><span class="line">        newObj[item] = obj[item]</span><br><span class="line">      &#125;</span><br><span class="line">      return newObj</span><br><span class="line">    &#125;</span><br><span class="line">    return obj</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>仔细看过上面的方法就会发现，浅拷贝其实就是遍历了一层然后直接复制而已，那假如该对象有引用类型的值呢，那浅拷贝也只是把指向引用类型的指针拷贝过来，因此浅拷贝不适合复制有引用类型属性的对象，看以下demo</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">let a = &#123;</span><br><span class="line">  name: &#x27;soul&#x27;,</span><br><span class="line">  job: &#123;</span><br><span class="line">    name: &#x27;前端&#x27;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">​</span><br><span class="line">let b = clone(a)</span><br><span class="line">b.name = &#x27;zs&#x27;</span><br><span class="line">b.job.name = &#x27;后端&#x27;</span><br><span class="line">​</span><br><span class="line">console.log(a.name)</span><br><span class="line">console.log(a.job.name)</span><br><span class="line">//  soul</span><br><span class="line">//  后端</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里a的name没受影响，a的job的name却收到影响，因为a的job是引用类型的值，保存的是指向该值在内存中的指针，我们进行浅拷贝，也就相当于复制了这个指针，因此a和b的job指向的是同一个值，所以修改b的job的name，a的job的name也变化了</p>
+</blockquote>
+<h5 id="三：深拷贝"><a href="#三：深拷贝" class="headerlink" title="三：深拷贝"></a>三：深拷贝</h5><p>分析浅拷贝后的弊端，我们发现，想要真正复制某个对象，遍历一层是不够的，因此，我们遍历的同时也要判断该属性的值是否为引用类型，如果是的话，应该再复制一层，使用递归可以很好的实现我们想要的，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">  function deepClone(obj) &#123;</span><br><span class="line">    if(obj == null || obj instanceof Function) return obj;</span><br><span class="line">    if(obj instanceof Array) &#123;</span><br><span class="line">      let newObj = []</span><br><span class="line">      //  把数组中的项通过deepClone进行递归调用</span><br><span class="line">      obj.forEach(item =&gt; newObj.push(deepClone(item)))</span><br><span class="line">      return newObj</span><br><span class="line">    &#125;</span><br><span class="line">    if(obj instanceof Object) &#123;</span><br><span class="line">      let newObj = &#123;&#125;</span><br><span class="line">      for(let item in obj) &#123;</span><br><span class="line">        //  把对象中的值通过deepClone进行递归调用</span><br><span class="line">        newObj[item] = deepClone(obj[item])</span><br><span class="line">      &#125;</span><br><span class="line">      return newObj</span><br><span class="line">    &#125;</span><br><span class="line">    return obj</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">  let b = deepClone(a)</span><br><span class="line">  b.name = &#x27;zs&#x27;;</span><br><span class="line">  b.job.name = &#x27;ctrl c&#x27;</span><br><span class="line">  b.job.time.start = 12</span><br><span class="line">  b.job.time.end = 12</span><br><span class="line">​</span><br><span class="line">  //  使用深拷贝后，修改b的引用类型的值也不会影响a</span><br><span class="line">  console.log(a)</span><br><span class="line">  console.log(b)</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0f181316c7654cff8643c7ff7ae52338~tplv-k3u1fbpfcp-watermark.image" alt="deepclone.png"></p>
+<h5 id="完结，js的深浅拷贝就谈到这里了，希望对你有所帮助，有更好的实现方法也可以分享出来一起交流哦，：）"><a href="#完结，js的深浅拷贝就谈到这里了，希望对你有所帮助，有更好的实现方法也可以分享出来一起交流哦，：）" class="headerlink" title="完结，js的深浅拷贝就谈到这里了，希望对你有所帮助，有更好的实现方法也可以分享出来一起交流哦，：）"></a>完结，js的深浅拷贝就谈到这里了，希望对你有所帮助，有更好的实现方法也可以分享出来一起交流哦，：）</h5>
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>本文标题：揭开js深浅拷贝的面纱</li>
+        <li>本文作者：Soul</li>
+        <li>创建时间：2022-03-10 21:24:05</li>
+        <li>
+            本文链接：https://keep.xpoet.cn/2022/03/10/揭开js深浅拷贝的面纱/
+        </li>
+        <li>
+            版权声明：本博客所有文章除特别声明外，均采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> 许可协议。转载请注明出处！
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/JavaScript/">#JavaScript</a>&nbsp;
+                    </li>
+                
+                    <li class="tag-item">
+                        <a href="/tags/%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">#引用类型</a>&nbsp;
+                    </li>
+                
+                    <li class="tag-item">
+                        <a href="/tags/%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/">#深浅拷贝</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2022/03/01/flutter-bloc-dio-demo/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">flutter_bloc_dio_demo</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;评论</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: '7458a5fa2e21ded6c4bc',
+                    clientSecret: '11da81ded6c42913e4a6e93245d9682d6b87c514',
+                    repo: 'hexo_blog_comment',
+                    owner: 'yjf-ll',
+                    admin: ['yjf-ll'],
+                    id: __gitalk__pathname,
+                    language: 'zh-CN'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>
+              -
+            
+            2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Soul</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        访问人数&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        总访问量&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80%EF%BC%9A%E5%89%8D%E8%A8%80"><span class="nav-text">一：前言</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8C%EF%BC%9A%E6%B5%85%E6%8B%B7%E8%B4%9D"><span class="nav-text">二：浅拷贝</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%89%EF%BC%9A%E6%B7%B1%E6%8B%B7%E8%B4%9D"><span class="nav-text">三：深拷贝</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%8C%E7%BB%93%EF%BC%8Cjs%E7%9A%84%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%E5%B0%B1%E8%B0%88%E5%88%B0%E8%BF%99%E9%87%8C%E4%BA%86%EF%BC%8C%E5%B8%8C%E6%9C%9B%E5%AF%B9%E4%BD%A0%E6%9C%89%E6%89%80%E5%B8%AE%E5%8A%A9%EF%BC%8C%E6%9C%89%E6%9B%B4%E5%A5%BD%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95%E4%B9%9F%E5%8F%AF%E4%BB%A5%E5%88%86%E4%BA%AB%E5%87%BA%E6%9D%A5%E4%B8%80%E8%B5%B7%E4%BA%A4%E6%B5%81%E5%93%A6%EF%BC%8C%EF%BC%9A%EF%BC%89"><span class="nav-text">完结，js的深浅拷贝就谈到这里了，希望对你有所帮助，有更好的实现方法也可以分享出来一起交流哦，：）</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+
+    
+<script src="/js/code-copy.js"></script>
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>
