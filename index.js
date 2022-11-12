@@ -6,10 +6,10 @@ exec('git add .',(err,stdout,stderr) => {
     console.log('stdout',stdout)
     console.log('stderr',stderr)
 })
-// exec('git commit -m "test"',(err,stdout,stderr) => {
-//     if(err) {
-//         console.log('err',err)
-//     }
-//     console.log('stdout',stdout)
-//     console.log('stderr',stderr)
-// })
+exec('git commit -m "test2"',(err,stdout,stderr) => {
+    if(err) {
+        console.log('err',err)
+    }
+    console.log('stdout',stdout)
+    console.log('stderr',stderr)
+})
