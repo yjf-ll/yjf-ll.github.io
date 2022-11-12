@@ -27,14 +27,23 @@ const git = async() => {
 };
 
 const deployBlog = async() => {
-    try {
-        await script("npm run clean");
-        await script("npm run build");
-        await script("npm run deploy");
+    return script("npm run clean").then(() => {
+        return script("npm run clean")
+    }).then(() => {
+        return script("npm run clean")
+    }).then(() => {
         console.log("博客部署完成");
-    } catch (e) {
+    }).catch((e)=> {
         throw Error(`blog err${e}`);
-    }
+    })
+    // try {
+    //     await script("npm run clean");
+    //     await script("npm run build");
+    //     await script("npm run deploy");
+    //     console.log("博客部署完成");
+    // } catch (e) {
+    //     throw Error(`blog err${e}`);
+    // }
 };
 
 const start = () => {
