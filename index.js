@@ -2,15 +2,14 @@ const {exec} = require("child_process");
 
 function script(command) {
     return new Promise((res,rej) => {
+        console.log(`开始执行: ${command}`);
         exec(command,(err,stdout,stderr) => {
-            if(stdout) {
-                console.log(`开始执行${command}`);
+            if(err) {
+                console.log(`失败: ${command}`);
+                rej(err);
+            } else  {
+                console.log(`成功: ${command}`);
                 res(stdout);
-            } else if(err) {
-                rej(`${command}${err}`);
-            }
-            else{
-                rej(`${command}${stderr}`);
             }
         });
     });
@@ -49,16 +48,4 @@ const start = () => {
     });
 };
 
-// start();
-
-exec('git add .',{},(err,stdout,stderr) => {
-    if(stdout) {
-        console.log(`开始执行`);
-    } else if(err) {
-        console.log(`err err`);
-
-    }
-    else{
-        console.log(`stderr err`);
-    }
-});
+start();
