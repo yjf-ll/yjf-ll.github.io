@@ -26,11 +26,14 @@ const git = async() => {
     }
 };
 
-const deployBlog = async() => {
+const deployBlog = () => {
+    console.log('****clean')
     return script("npm run clean").then(() => {
-        return script("npm run clean")
+        console.log('****build')
+        return script("npm run build")
     }).then(() => {
-        return script("npm run clean")
+        console.log('****deploy')
+        return script("npm run deploy")
     }).then(() => {
         console.log("博客部署完成");
     }).catch((e)=> {
