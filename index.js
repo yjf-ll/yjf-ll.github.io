@@ -9,13 +9,13 @@ function script(command) {
                 rej(err);
             } else  {
                 console.log(`成功: ${command}`);
-                res(stdout);
+                res({stdout,stderr});
             }
         });
     });
 }
 
-const git = async() => {
+const gitHook = async() => {
     try {
         await script("git add .");
         await script("git commit -m 'test'");
@@ -26,38 +26,22 @@ const git = async() => {
     }
 };
 
-const deployBlog = () => {
-    console.log('****clean')
-    return script("npm run clean").then(() => {
-        console.log('****build')
-        return script("npm run build")
-    }).then(() => {
-        console.log('****deploy')
-        return script("npm run deploy")
-    }).then(() => {
+const blogHook = async () => {
+    try {
+        await script("npm run clean");
+        await script("npm run build");
+        await script("npm run deploy");
         console.log("博客部署完成");
-    }).catch((e)=> {
+    } catch (e) {
         throw Error(`blog err${e}`);
-    })
-    // try {
-    //     await script("npm run clean");
-    //     await script("npm run build");
-    //     await script("npm run deploy");
-    //     console.log("博客部署完成");
-    // } catch (e) {
-    //     throw Error(`blog err${e}`);
-    // }
+    }
 };
 
-const start = () => {
-    // deployBlog().then(
-    //     console.log("结束")
-    // );
-    git().then(res => {
-        deployBlog().then(
-            console.log("结束")
-        );
-    });
+const start = async () => {
+    await gitHook()
+    await blogHook()
 };
 
-start();
+start().then(() => {
+    console.log('全部完成~')
+});
