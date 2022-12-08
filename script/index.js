@@ -1,19 +1,22 @@
-const exec = require('child_process').exec
+class Future {
 
+    constructor(callback = (res,rej) => {}) {
 
-// exec('npm run server')
-// exec('npm run clean')
-// exec('npm run build')
-// exec('npm run deploy')
-exec('git add .',(err,stdout,stderr) => {
-    if(err) {
-        console.log('err',err)
     }
-    console.log('stdout',stdout)
-    console.log('stderr',stderr)
-})
-// exec('git push')
 
-// exec('hexo g')
-// exec('hexo d')
-// console.log('aa')
+    then() {
+
+    }
+}
+
+async function test() {
+    const res = await new Promise((res,rej) => {
+        setTimeout(() => {
+            console.log('test');
+            res(1)
+        },1000)
+    })
+    console.log(res);
+} 
+
+test()
