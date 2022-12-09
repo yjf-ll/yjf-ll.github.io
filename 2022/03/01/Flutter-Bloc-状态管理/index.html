@@ -1,0 +1,704 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Soul">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言： 之前分享过怎么封装dio，今天就分享下使用bloc如何做网络请求吧，下面放一些你可能需要的资料，^_^   dio封装：https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7065524382562533412 bloc官网：https:&#x2F;&#x2F;bloclibrary.dev&#x2F;#&#x2F;zh-cn&#x2F;gettingstarted 小呆呆分享的bloc入门教程，写的很好：https:&#x2F;&#x2F;juejin.cn&#x2F;p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter-Bloc-状态管理">
+<meta property="og:url" content="http://yjf-ll.github.io/2022/03/01/Flutter-Bloc-%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="Soul&#39;s Blog">
+<meta property="og:description" content="前言： 之前分享过怎么封装dio，今天就分享下使用bloc如何做网络请求吧，下面放一些你可能需要的资料，^_^   dio封装：https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;7065524382562533412 bloc官网：https:&#x2F;&#x2F;bloclibrary.dev&#x2F;#&#x2F;zh-cn&#x2F;gettingstarted 小呆呆分享的bloc入门教程，写的很好：https:&#x2F;&#x2F;juejin.cn&#x2F;p">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0292fd3b68c14d02aa6376710798059c~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ded11cd0f49a4db8b7abb81b9e747d5b~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3417f8c1d3f44c1db8f1d2a8174a82c6~tplv-k3u1fbpfcp-watermark.image">
+<meta property="article:published_time" content="2022-03-01T22:18:56.000Z">
+<meta property="article:modified_time" content="2022-12-09T08:56:22.984Z">
+<meta property="article:author" content="Soul">
+<meta property="article:tag" content="Flutter">
+<meta property="article:tag" content="Bloc">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0292fd3b68c14d02aa6376710798059c~tplv-k3u1fbpfcp-watermark.image">
+  
+  
+  
+  <title>Flutter-Bloc-状态管理 - Soul&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yjf-ll.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>编程之旅</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Flutter-Bloc-状态管理"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-03-01 22:18" pubdate>
+          2022年3月1日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          36 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Flutter-Bloc-状态管理</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h5 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h5><blockquote>
+<p>之前分享过怎么封装dio，今天就分享下使用bloc如何做网络请求吧，下面放一些你可能需要的资料，^_^</p>
+</blockquote>
+<ul>
+<li>dio封装：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7065524382562533412">https://juejin.cn/post/7065524382562533412</a></li>
+<li>bloc官网：<a target="_blank" rel="noopener" href="https://bloclibrary.dev/#/zh-cn/gettingstarted">https://bloclibrary.dev/#/zh-cn/gettingstarted</a></li>
+<li>小呆呆分享的bloc入门教程，写的很好：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6856268776510504968#heading-1">https://juejin.cn/post/6856268776510504968#heading-1</a></li>
+</ul>
+<h5 id="一：Bloc简介"><a href="#一：Bloc简介" class="headerlink" title="一：Bloc简介"></a>一：Bloc简介</h5><p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0292fd3b68c14d02aa6376710798059c~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="bloc.png"></p>
+<blockquote>
+<p>bloc是个状态管理框架，可以做到UI和逻辑分离，并且数据也能复用，举个例子，你用bloc写了一个获取用户信息的模板，然后你在首页或者在其他地方都能使用该bloc直接获取用户信息，直接看代码吧</p>
+</blockquote>
+<h5 id="二：Bloc使用"><a href="#二：Bloc使用" class="headerlink" title="二：Bloc使用"></a>二：Bloc使用</h5><ul>
+<li><p>先添加这个库</p>
+<blockquote>
+<p>&#x2F;&#x2F; 这里安装的是7.0.1版本的，高版本的bloc写法会有些区别</p>
+<p>dependencies:<br>flutter_bloc:  7.0.1</p>
+</blockquote>
+</li>
+<li><p>创建一个网络请求的类</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;dart:async&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:dio/dio.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter_network/network/network.dart&#x27;</span>;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HomeRepository</span> </span>&#123;<br>  <span class="hljs-keyword">final</span> Dio dio = Network.instance;<br><br>  Future&lt;<span class="hljs-built_in">String</span>&gt; getData() <span class="hljs-keyword">async</span> &#123;<br>    <span class="hljs-comment">//  在这里网络请求，然后返回出去，我这里是返回模拟的数据</span><br>    <span class="hljs-keyword">final</span> result = <span class="hljs-keyword">await</span> Future.delayed(<span class="hljs-built_in">Duration</span>(seconds: <span class="hljs-number">2</span>), () &#123;<br>      <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;hello world&#x27;</span>;<br>    &#125;);<br>    <span class="hljs-keyword">return</span> result;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>通过插件创建bloc的模板</p>
+</li>
+</ul>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ded11cd0f49a4db8b7abb81b9e747d5b~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="bloc_temp.png"></p>
+<ul>
+<li><p>创建一个状态枚举，作用是描述当前网络请求的状态</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">enum</span> Status &#123;<br>  <span class="hljs-comment">//  初始化</span><br>  pure,<br>  <span class="hljs-comment">//  加载中</span><br>  progress,<br>  <span class="hljs-comment">//  请求成功</span><br>  success,<br>  <span class="hljs-comment">//  请求失败</span><br>  failure,<br>&#125;<br><br><span class="hljs-keyword">extension</span> <span class="hljs-built_in">Function</span> <span class="hljs-keyword">on</span> Status &#123;<br>  <span class="hljs-comment">//  扩展枚举的一些方法</span><br>  <span class="hljs-built_in">bool</span> <span class="hljs-keyword">get</span> isPure =&gt; <span class="hljs-keyword">this</span> == Status.pure;<br><br>  <span class="hljs-built_in">bool</span> <span class="hljs-keyword">get</span> isProgress =&gt; <span class="hljs-keyword">this</span> == Status.progress;<br><br>  <span class="hljs-built_in">bool</span> <span class="hljs-keyword">get</span> isSuccess =&gt; <span class="hljs-keyword">this</span> == Status.success;<br><br>  <span class="hljs-built_in">bool</span> <span class="hljs-keyword">get</span> isFailure =&gt; <span class="hljs-keyword">this</span> == Status.failure;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>修改state文件为：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">part</span> of <span class="hljs-string">&#x27;home_bloc.dart&#x27;</span>;<br><br><span class="hljs-meta">@immutable</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HomeState</span> </span>&#123;<br>  <span class="hljs-comment">//  请求的状态</span><br>  <span class="hljs-keyword">final</span> Status status;<br><br>  <span class="hljs-comment">//  请求成功后的数据</span><br>  <span class="hljs-keyword">final</span> <span class="hljs-built_in">String</span> data;<br><br>  <span class="hljs-comment">//  请求失败的错误</span><br>  <span class="hljs-keyword">final</span> Exception? exception;<br><br>  <span class="hljs-comment">//  私有命名构造函数</span><br>  HomeState._(&#123;<br>    <span class="hljs-keyword">required</span> <span class="hljs-keyword">this</span>.status,<br>    <span class="hljs-keyword">required</span> <span class="hljs-keyword">this</span>.data,<br>    <span class="hljs-keyword">this</span>.exception,<br>  &#125;);<br><br>  <span class="hljs-comment">//  工厂构造函数，bloc通过该构造函数来初始化真正的state</span><br>  <span class="hljs-keyword">factory</span> HomeState.init() =&gt; HomeState._(<br>        status: Status.pure,<br>        data: <span class="hljs-string">&#x27;&#x27;</span>,<br>      );<br><br>  <span class="hljs-comment">//  生成的实例通过该方法来生成新的state返回出去</span><br>  HomeState copyWith(&#123;<br>    Status? status,<br>    <span class="hljs-built_in">String?</span> data,<br>    Exception? exception,<br>  &#125;) =&gt;<br>      HomeState._(<br>        status: status ?? <span class="hljs-keyword">this</span>.status,<br>        data: data ?? <span class="hljs-keyword">this</span>.data,<br>        exception: exception,<br>      );<br>&#125;<br><br><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>添加网络请求的事件</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">part</span> of <span class="hljs-string">&#x27;home_bloc.dart&#x27;</span>;<br><br><span class="hljs-meta">@immutable</span><br><span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HomeEvent</span> </span>&#123;&#125;<br><span class="hljs-comment">//  网络请求的事件</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HomeDataLoaded</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">HomeEvent</span> </span>&#123;&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>在bloc中对上面的事件添加逻辑处理</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;dart:async&#x27;</span>;<br><br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:bloc/bloc.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter_network/view/model/status.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter_network/view/repository/home_repository.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:meta/meta.dart&#x27;</span>;<br><br><span class="hljs-keyword">part</span> <span class="hljs-string">&#x27;home_event.dart&#x27;</span>;<br><span class="hljs-keyword">part</span> <span class="hljs-string">&#x27;home_state.dart&#x27;</span>;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HomeBloc</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Bloc</span>&lt;<span class="hljs-title">HomeEvent</span>, <span class="hljs-title">HomeState</span>&gt; </span>&#123;<br>  <span class="hljs-comment">//  存储库的实例，用于网络请求</span><br>  <span class="hljs-keyword">final</span> HomeRepository repository = HomeRepository();<br><br>  HomeBloc() : <span class="hljs-keyword">super</span>(HomeState.init());<br><br>  <span class="hljs-meta">@override</span><br>  Stream&lt;HomeState&gt; mapEventToState(<br>    HomeEvent event,<br>  ) <span class="hljs-keyword">async</span>* &#123;<br>    <span class="hljs-comment">//  如果是这个事件那就进行里面的处理</span><br>    <span class="hljs-keyword">if</span>(event <span class="hljs-keyword">is</span> HomeDataLoaded) &#123;<br>      <span class="hljs-keyword">yield</span>* _mapHomeDataLoadedToState();<br>    &#125;<br>  &#125;<br><br>  Stream&lt;HomeState&gt; _mapHomeDataLoadedToState() <span class="hljs-keyword">async</span>* &#123;<br>    <span class="hljs-comment">//  先把状态改成加载中</span><br>    <span class="hljs-keyword">yield</span> state.copyWith(status: Status.progress);<br><br>    <span class="hljs-keyword">yield</span> <span class="hljs-keyword">await</span> repository.getData().then((value) &#123;<br>      <span class="hljs-comment">//  成功了就把状态改成成功，并且保存下数据</span><br>      <span class="hljs-keyword">return</span> state.copyWith(status: Status.success, data: value);<br>    &#125;).onError((Exception? error, stackTrace) &#123;<br>      <span class="hljs-comment">//  失败了就把状态改成失败，并且保存下错误消息</span><br>      <span class="hljs-keyword">return</span> state.copyWith(status: Status.failure, exception: error);<br>    &#125;);<br>  &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>具体怎么使用呢，请看代码</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter_bloc/flutter_bloc.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter_network/view/bloc/home_bloc.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter_network/view/model/status.dart&#x27;</span>;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HomePage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span> </span>&#123;<br>  <span class="hljs-keyword">const</span> HomePage(&#123;Key? key&#125;) : <span class="hljs-keyword">super</span>(key: key);<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br><br>    <span class="hljs-comment">//  这里使用BlocBuilder包裹我们想要使用bloc数据的widget</span><br>    <span class="hljs-keyword">final</span> content = BlocBuilder&lt;HomeBloc, HomeState&gt;(builder: (context, state) &#123;<br>      <span class="hljs-keyword">return</span> Column(<br>        children: [<br>          state.status.isProgress<br>              ? CircularProgressIndicator(<br>            color: Colors.blue,<br>          )<br>              : Text(<br>              state.data.toString()<br>          ),<br>          IconButton(<br>            icon: Icon(Icons.add),<br>            onPressed: () &#123;<br>              context.read&lt;HomeBloc&gt;().add(HomeDataLoaded());<br>            &#125;,<br>          )<br>        ],<br>      );<br>    &#125;);<br><br>    <span class="hljs-keyword">return</span> Scaffold(<br>      appBar: AppBar(title: Text(<span class="hljs-string">&#x27;Bloc &amp; Dio&#x27;</span>),centerTitle: <span class="hljs-keyword">true</span>),<br>      body: Center(<br>        <span class="hljs-comment">//  这里创建我们的bloc</span><br>        child: BlocProvider(<br>          create: (context) =&gt; HomeBloc(),<br>          child: content,<br>        ),<br>      ),<br>    );<br>  &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure></li>
+</ul>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3417f8c1d3f44c1db8f1d2a8174a82c6~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="QQ图片20220302135124.gif"></p>
+<ul>
+<li><p>如果想要在页面一进去就自动加载请求的话，在创建该bloc的时候通过级联操作符，直接添加事件就可以了</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-selector-tag">BlocProvider</span>(<br>  <span class="hljs-attribute">create</span>: (context) =&gt; <span class="hljs-built_in">HomeBloc</span>()..<span class="hljs-built_in">add</span>(<span class="hljs-built_in">HomeDataLoaded</span>()),<br>  <span class="hljs-attribute">child</span>: content,<br>)<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="OK，感谢看完的小伙伴。：）"><a href="#OK，感谢看完的小伙伴。：）" class="headerlink" title="OK，感谢看完的小伙伴。：）"></a>OK，感谢看完的小伙伴。：）</h5>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Flutter/" class="category-chain-item">Flutter</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Flutter/">#Flutter</a>
+      
+        <a href="/tags/Bloc/">#Bloc</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Flutter-Bloc-状态管理</div>
+      <div>http://yjf-ll.github.io/2022/03/01/Flutter-Bloc-状态管理/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Soul</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年3月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/03/JavaScript-%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/" title="JavaScript-深浅拷贝">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">JavaScript-深浅拷贝</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/02/27/React-Axios%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82%E5%B0%81%E8%A3%85/" title="React-Axios网络请求封装">
+                        <span class="hidden-mobile">React-Axios网络请求封装</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

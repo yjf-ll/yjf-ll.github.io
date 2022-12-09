@@ -16,21 +16,24 @@
   <meta name="author" content="Soul">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+    <meta name="description" content="前言： 在接触dio库和axios库后，感觉网络请求的操作基本都差不多，主要思路都是对库的网络请求实例进行通用的配置以及添加一些拦截器，然后对配置后的实例再封装一层通用的请求函数，这样做的好处在于随时可以更换底层网络请求库，再也不怕网络请求库不维护或者有重大bug啦！！！虽然这种概率极小，，，  一：封装思路如下 生成一个axios实例，传入通用的配置 添加请求拦截器 封装请求函数 基本使用  二">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yjf-ll.github.io/2022/12/09/hello-world/index.html">
+<meta property="og:title" content="React-Axios网络请求封装">
+<meta property="og:url" content="http://yjf-ll.github.io/2022/02/27/React-Axios%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82%E5%B0%81%E8%A3%85/index.html">
 <meta property="og:site_name" content="Soul&#39;s Blog">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="前言： 在接触dio库和axios库后，感觉网络请求的操作基本都差不多，主要思路都是对库的网络请求实例进行通用的配置以及添加一些拦截器，然后对配置后的实例再封装一层通用的请求函数，这样做的好处在于随时可以更换底层网络请求库，再也不怕网络请求库不维护或者有重大bug啦！！！虽然这种概率极小，，，  一：封装思路如下 生成一个axios实例，传入通用的配置 添加请求拦截器 封装请求函数 基本使用  二">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-12-09T07:41:52.636Z">
-<meta property="article:modified_time" content="2022-12-09T07:41:52.636Z">
+<meta property="article:published_time" content="2022-02-27T16:02:26.000Z">
+<meta property="article:modified_time" content="2022-12-09T08:56:22.984Z">
 <meta property="article:author" content="Soul">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="React">
+<meta property="article:tag" content="Axios">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>Hello World - Soul&#39;s Blog</title>
+  <title>React-Axios网络请求封装 - Soul&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -94,7 +97,7 @@
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <strong>Fluid</strong>
+      <strong>编程之旅</strong>
     </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
@@ -196,7 +199,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Hello World"></span>
+            <span id="subtitle" data-typed-text="React-Axios网络请求封装"></span>
           
         </div>
 
@@ -207,8 +210,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-12-09 07:41" pubdate>
-          2022年12月9日 早上
+        <time datetime="2022-02-27 16:02" pubdate>
+          2022年2月27日 下午
         </time>
       </span>
     
@@ -219,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          367 字
+          1.8k 字
         
       </span>
     
@@ -230,7 +233,7 @@
         
         
         
-          4 分钟
+          16 分钟
         
       </span>
     
@@ -268,25 +271,43 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Hello World</h1>
+            <h1 style="display: none">React-Axios网络请求封装</h1>
             
             
               <div class="markdown-body">
                 
-                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
+                <h5 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h5><blockquote>
+<p>在接触dio库和axios库后，感觉网络请求的操作基本都差不多，主要思路都是对库的网络请求实例进行通用的配置以及添加一些拦截器，然后对配置后的实例再封装一层通用的请求函数，这样做的好处在于随时可以更换底层网络请求库，再也不怕网络请求库不维护或者有重大bug啦！！！虽然这种概率极小，，，</p>
+</blockquote>
+<h5 id="一：封装思路如下"><a href="#一：封装思路如下" class="headerlink" title="一：封装思路如下"></a>一：封装思路如下</h5><ul>
+<li>生成一个axios实例，传入通用的配置</li>
+<li>添加请求拦截器</li>
+<li>封装请求函数</li>
+<li>基本使用</li>
+</ul>
+<h5 id="二：代码演示"><a href="#二：代码演示" class="headerlink" title="二：代码演示"></a>二：代码演示</h5><blockquote>
+<p>生成axios实例并添加通用的配置</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs react">const instance = axios.create(&#123;<br>  baseURL: &#x27;https://www.xxx.api&#x27;,<br>  timeout: 8000,<br>  headers: &#123;<br>    &#x27;xxx-ffff&#x27;: &#x27;fa&#x27;,<br>  &#125;<br>&#125;);<br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>添加拦截器，请求的时候判断是否需要添加token，得到结果后，假如code不是200或者0或2000，就判断该结果不是成功的，就使用throw把结果当成错误抛出</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs react">instance.interceptors.request.use((config) =&gt; &#123;<br>  const token = getToken();<br>  if(token !== null &amp;&amp; token !== undefined) &#123;<br>    config.headers[&#x27;boarding-pass&#x27;] = token;<br>  &#125;<br>  return config;<br>&#125;, error =&gt; &#123;<br>  return error;<br>&#125;)<br><br>instance.interceptors.response.use(res =&gt; &#123;<br>  const &#123;code&#125; = res.data;<br>  if(code !== 200 &amp;&amp; code !== 0 &amp;&amp; code !== 2000) &#123;<br>    console.log(&#x27;请求成功，但被拦截的数据&#x27;,res)<br>    throw res.data;<br>  &#125;<br>  return res.data;<br>&#125;, error =&gt; &#123;<br>  return error;<br>&#125;)<br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p> 对该实例封装一层通用的请求方法，我练习的接口比较简单，所以只添加三个参数，也可以添加其他的参数，具体看你！</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs react">function request(method, url, params) &#123;<br>  return instance.request(&#123;<br>    method: method,<br>    url: url,<br>    params: params<br>  &#125;);<br>&#125;<br><br>export &#123;<br>  request<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>好，封装该请求函数后，怎么使用就比较简单了</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs react">// 我自己会把具体请求再封装一层，就不会在UI组件里面搞得乱乱的了，也能在其他组件里复用该请求方法，<br>function apiSignIn(params) &#123;<br>  return request(<br>    &#x27;post&#x27;,<br>    &#x27;/user/login&#x27;,<br>    params,<br>  );<br>&#125;<br><br>export &#123;apiSignIn&#125;<br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs react">// 真正使用的地方如下：<br>function signIn() &#123;<br>  const query = &#123;<br>   userName: &#x27;xxxxxxx&#x27;,<br>   password: &#x27;xxxxxxx&#x27;<br>  &#125;<br>  apiSignIn(<br>   query<br>  ).then(res =&gt; &#123;<br>    console.log(res)<br>  &#125;).catch(err =&gt; &#123;<br>    console.log(err)<br>  &#125;);<br>&#125;<br>&lt;Button<br>  type=&quot;primary&quot;<br>  size=&#123;&quot;large&quot;&#125;<br>  onClick=&#123;() =&gt; signIn()&#125;<br>&gt;<br>    SignIn<br>&lt;/Button&gt;<br></code></pre></td></tr></table></figure>
 
+<h6 id="ok，到这里就over了，感谢看完的小伙伴，有更好的方式也可以交流哈，："><a href="#ok，到这里就over了，感谢看完的小伙伴，有更好的方式也可以交流哈，：" class="headerlink" title="ok，到这里就over了，感谢看完的小伙伴，有更好的方式也可以交流哈，：)"></a>ok，到这里就over了，感谢看完的小伙伴，有更好的方式也可以交流哈，：)</h6>
                 
               </div>
             
@@ -294,6 +315,45 @@
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/JavaScript/" class="category-chain-item">JavaScript</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/JavaScript/React/" class="category-chain-item">React</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/JavaScript/">#JavaScript</a>
+      
+        <a href="/tags/React/">#React</a>
+      
+        <a href="/tags/Axios/">#Axios</a>
+      
+    </div>
   
 </div>
 
@@ -303,8 +363,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Hello World</div>
-      <div>http://yjf-ll.github.io/2022/12/09/hello-world/</div>
+      <div>React-Axios网络请求封装</div>
+      <div>http://yjf-ll.github.io/2022/02/27/React-Axios网络请求封装/</div>
     </div>
     <div class="license-meta">
       
@@ -316,7 +376,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年12月9日</div>
+          <div>2022年2月27日</div>
         </div>
       
       
@@ -348,15 +408,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/12/09/test/" title="test">
+                      <a href="/2022/03/01/Flutter-Bloc-%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/" title="Flutter-Bloc-状态管理">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">test</span>
+                        <span class="hidden-mobile">Flutter-Bloc-状态管理</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2022/02/17/Flutter%E4%BD%BF%E7%94%A8Dio%E8%BF%9B%E8%A1%8C%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92/" title="Flutter使用Dio进行网络交互">
+                        <span class="hidden-mobile">Flutter使用Dio进行网络交互</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>

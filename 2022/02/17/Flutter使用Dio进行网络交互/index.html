@@ -1,0 +1,691 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Soul">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Flutter &amp; Dio 网络交互前言 flutter做网络请求目前最火的就是Dio库了，那么如何使用该库呢，怎么进行一个通用的封装呢，封装技巧能复用嘛？请看下文：  一：安装dio库 (dio: ^4.0.4) 官方地址传送门：https:&#x2F;&#x2F;github.com&#x2F;flutterchina&#x2F;dio&#x2F;blob&#x2F;master&#x2F;README-ZH.md flutter pub add dio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter使用Dio进行网络交互">
+<meta property="og:url" content="http://yjf-ll.github.io/2022/02/17/Flutter%E4%BD%BF%E7%94%A8Dio%E8%BF%9B%E8%A1%8C%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92/index.html">
+<meta property="og:site_name" content="Soul&#39;s Blog">
+<meta property="og:description" content="Flutter &amp; Dio 网络交互前言 flutter做网络请求目前最火的就是Dio库了，那么如何使用该库呢，怎么进行一个通用的封装呢，封装技巧能复用嘛？请看下文：  一：安装dio库 (dio: ^4.0.4) 官方地址传送门：https:&#x2F;&#x2F;github.com&#x2F;flutterchina&#x2F;dio&#x2F;blob&#x2F;master&#x2F;README-ZH.md flutter pub add dio">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-02-17T12:04:33.000Z">
+<meta property="article:modified_time" content="2022-12-09T08:56:22.984Z">
+<meta property="article:author" content="Soul">
+<meta property="article:tag" content="Flutter">
+<meta property="article:tag" content="Dio">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Flutter使用Dio进行网络交互 - Soul&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yjf-ll.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>编程之旅</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Flutter使用Dio进行网络交互"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-02-17 12:04" pubdate>
+          2022年2月17日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          38 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Flutter使用Dio进行网络交互</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Flutter-amp-Dio-网络交互"><a href="#Flutter-amp-Dio-网络交互" class="headerlink" title="Flutter &amp; Dio 网络交互"></a>Flutter &amp; Dio 网络交互</h1><h5 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h5><blockquote>
+<p>flutter做网络请求目前最火的就是Dio库了，那么如何使用该库呢，怎么进行一个通用的封装呢，封装技巧能复用嘛？请看下文：</p>
+</blockquote>
+<h5 id="一：安装dio库-dio-4-0-4-官方地址传送门：https-github-com-flutterchina-dio-blob-master-README-ZH-md"><a href="#一：安装dio库-dio-4-0-4-官方地址传送门：https-github-com-flutterchina-dio-blob-master-README-ZH-md" class="headerlink" title="一：安装dio库 (dio: ^4.0.4) 官方地址传送门：https://github.com/flutterchina/dio/blob/master/README-ZH.md"></a>一：安装dio库 (dio: ^4.0.4) 官方地址传送门：<a target="_blank" rel="noopener" href="https://github.com/flutterchina/dio/blob/master/README-ZH.md">https://github.com/flutterchina/dio/blob/master/README-ZH.md</a></h5><blockquote>
+<p>flutter pub add dio</p>
+</blockquote>
+<h5 id="二：dio的基本使用"><a href="#二：dio的基本使用" class="headerlink" title="二：dio的基本使用"></a>二：dio的基本使用</h5><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:dio/dio.dart&#x27;</span>;<br><br><span class="hljs-comment">//  这里使用的是网易云api，感谢开源感谢分享！官方地址传送门：</span><br><span class="hljs-comment">// https://binaryify.github.io/NeteaseCloudMusicApi/#/</span><br><br><span class="hljs-keyword">void</span> send() <span class="hljs-keyword">async</span> &#123;<br>   <span class="hljs-keyword">final</span> query = &#123;<span class="hljs-string">&#x27;id&#x27;</span>: <span class="hljs-number">186016</span>, <span class="hljs-string">&#x27;limit&#x27;</span>: <span class="hljs-number">1</span>&#125;;<br>   <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-comment">// 实例化Dio，传入参数做一个get请求</span><br>      <span class="hljs-keyword">final</span> result = <span class="hljs-keyword">await</span> Dio().<span class="hljs-keyword">get</span>(<br>          <span class="hljs-string">&#x27;http://123.207.32.32:9001/comment/music&#x27;</span>,<br>          queryParameters: query,<br>      );<br>        <span class="hljs-comment">// 打印结果</span><br>      <span class="hljs-built_in">print</span>(result);<br>   &#125; <span class="hljs-keyword">catch</span> (e) &#123;<br>        <span class="hljs-comment">// 打印异常</span><br>      <span class="hljs-built_in">print</span>(e);<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用dio的步骤就是，实例化一个Dio，使用该实例做某些请求（也许会传入一些参数），那么问题来了，每个页面都要生成这样的一个实例嘛？或者说有方法可以更好的管理dio，答案是有的，各位看官请继续：</p>
+</blockquote>
+<h5 id="三：dio的基本封装"><a href="#三：dio的基本封装" class="headerlink" title="三：dio的基本封装"></a>三：dio的基本封装</h5><blockquote>
+<p>一般来说，主要是对请求的配置信息，和网络拦截器做一个通用的封装，这边采取的思路是使用一个类来保存dio的实例，然后全局都可以使用该实例进行网络请求</p>
+</blockquote>
+<ul>
+<li><p>编写网络配置类</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NetworkConfig</span> </span>&#123;<br>  <span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-built_in">String</span> baseUrl = <span class="hljs-string">&#x27;http://123.207.32.32:9001/&#x27;</span>;<br><br>  <span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-built_in">int</span> sendTimeout = <span class="hljs-number">8000</span>;<br><br>  <span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-built_in">int</span> connectTimeout = <span class="hljs-number">8000</span>;<br><br>  <span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-built_in">int</span> receiveTimeout = <span class="hljs-number">8000</span>;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>编写接口工具类（保存常用的接口，好管理）</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs livescript"><span class="hljs-keyword">class</span> <span class="hljs-title class_">EndPoint</span> &#123;<br>  <span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-built_in">String</span> comment = <span class="hljs-string">&#x27;comment/music&#x27;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>编写dio的拦截器</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">//   拦截器可以做很多事情，具体可以看一下官方文档</span><br><span class="hljs-comment">//  假如我们在请求的时候需要添加token，那么就可以在onRequest里面进行处理</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NetworkIntercept</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Interceptor</span> </span>&#123;<br>  <span class="hljs-meta">@override</span><br>  <span class="hljs-keyword">void</span> onRequest(RequestOptions options, RequestInterceptorHandler handler) &#123;<br>    <span class="hljs-comment">//  这里的AppCache缓存类在我的上一篇文章里有讲，有需要可以查看</span><br>    <span class="hljs-comment">//   从缓存中添加token，这里只是举一个例子，也有其他方式添加token</span><br>    <span class="hljs-keyword">final</span> <span class="hljs-built_in">String?</span> token = AppCache.token;<br>    <span class="hljs-keyword">if</span> (token != <span class="hljs-keyword">null</span>) &#123;<br>      options.headers[<span class="hljs-string">&#x27;token&#x27;</span>] = token;<br>    &#125;<br>    <span class="hljs-keyword">super</span>.onRequest(options, handler);<br>  &#125;<br><br>  <span class="hljs-meta">@override</span><br>  <span class="hljs-keyword">void</span> onResponse(Response response, ResponseInterceptorHandler handler) &#123;<br>      <span class="hljs-keyword">super</span>.onResponse(response, handler);<br>  &#125;<br><br>  <span class="hljs-meta">@override</span><br>  <span class="hljs-keyword">void</span> onError(DioError err, ErrorInterceptorHandler handler) &#123;<br>    <span class="hljs-keyword">super</span>.onError(err, handler);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>编写保存dio的单例类，</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:dio/dio.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter_network/cache/cache.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter_network/network/network_config.dart&#x27;</span>;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Network</span> </span>&#123;<br>  <span class="hljs-keyword">final</span> Dio dio;<br><br>  Network._(&#123;<span class="hljs-keyword">required</span> <span class="hljs-keyword">this</span>.dio&#125;);<br><br>  <span class="hljs-keyword">factory</span> Network._create(Dio dio) =&gt; Network._(dio: dio);<br><br>  <span class="hljs-keyword">static</span> Network? _client;<br><br>  <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> init() &#123;<br>    <span class="hljs-keyword">if</span> (_client == <span class="hljs-keyword">null</span>) &#123;<br>      <span class="hljs-comment">//  创建配置信息</span><br>      <span class="hljs-keyword">final</span> BaseOptions options = BaseOptions(<br>        baseUrl: NetworkConfig.baseUrl,<br>        sendTimeout: NetworkConfig.sendTimeout,<br>        connectTimeout: NetworkConfig.connectTimeout,<br>        receiveTimeout: NetworkConfig.receiveTimeout,<br>      );<br><br>      <span class="hljs-comment">//  创建dio实例，并且添加配置信息</span><br>      <span class="hljs-keyword">final</span> Dio dio = Dio(options);<br><br>      <span class="hljs-comment">//  对dio添加上面的拦截器</span><br>      dio.interceptors.add(NetworkIntercept());<br><br>      <span class="hljs-comment">//  创建network实例并保存</span><br>      _client = Network._create(dio);<br>    &#125;<br>  &#125;<br><br>  <span class="hljs-comment">//  对外返回处理过的dio实例</span><br>  <span class="hljs-keyword">static</span> Dio <span class="hljs-keyword">get</span> instance =&gt; _client!.dio;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>封装后需要在main函数里面进行一次初始化，代码如下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter_network/cache/cache.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter_network/network/network.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter_network/view/home_page.dart&#x27;</span>;<br><br>Future&lt;<span class="hljs-keyword">void</span>&gt; main() <span class="hljs-keyword">async</span> &#123;<br>  WidgetsFlutterBinding.ensureInitialized();<br>  <span class="hljs-comment">//  初始化缓存单例类</span><br>  <span class="hljs-comment">//  这里的AppCache缓存类在我的上一篇文章里有讲，有需要可以查看</span><br>  <span class="hljs-keyword">await</span> AppCache.init();<br>  <span class="hljs-comment">//  初始化网络单例类</span><br>  Network.init();<br>  runApp(MyApp());<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span> </span>&#123;<br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> MaterialApp(<br>      theme: ThemeData(<br>        primarySwatch: Colors.blue,<br>      ),<br>      home: HomePage(),<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>那么封装好后，我们应该如何使用呢？简单，上代码：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:dio/dio.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter_network/network/end_point.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter_network/network/network.dart&#x27;</span>;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HomePage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatefulWidget</span> </span>&#123;<br>  <span class="hljs-keyword">const</span> HomePage(&#123;Key? key&#125;) : <span class="hljs-keyword">super</span>(key: key);<br><br>  <span class="hljs-meta">@override</span><br>  _HomePageState createState() =&gt; _HomePageState();<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">_HomePageState</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">State</span>&lt;<span class="hljs-title">HomePage</span>&gt; </span>&#123;<br>  <span class="hljs-comment">//  引用网络单例类里面封装好的dio</span><br>  <span class="hljs-keyword">final</span> Dio dio = Network.instance;<br><br>  Future&lt;<span class="hljs-keyword">void</span>&gt; send() <span class="hljs-keyword">async</span> &#123;<br>    <span class="hljs-keyword">final</span> query = &#123;<br>      <span class="hljs-string">&#x27;id&#x27;</span>: <span class="hljs-number">186016</span>,<br>      <span class="hljs-string">&#x27;limit&#x27;</span>: <span class="hljs-number">1</span>,<br>    &#125;;<br>    <span class="hljs-keyword">try</span> &#123;<br>      <span class="hljs-keyword">final</span> result = <span class="hljs-keyword">await</span> dio.<span class="hljs-keyword">get</span>(<br>        EndPoint.comment,<br>        queryParameters: query,<br>      );<br>      <span class="hljs-built_in">print</span>(result);<br>    &#125; <span class="hljs-keyword">catch</span> (e) &#123;<br>      <span class="hljs-built_in">print</span>(e);<br>    &#125;<br>  &#125;<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Scaffold(<br>      appBar: AppBar(<br>        title: Text(<span class="hljs-string">&#x27;Network&#x27;</span>),<br>        centerTitle: <span class="hljs-keyword">true</span>,<br>      ),<br>      body: Center(<br>        child: FloatingActionButton(<br>          onPressed: send,<br>          child: Text(<span class="hljs-string">&#x27;点击&#x27;</span>),<br>        ),<br>      ),<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>至此，dio的简单封装教程就结束了，有啥不懂得可以在评论区留言，或者有更好的方法也可以一起分享，感谢看完的铁铁们！：） 封装的技巧都是通用的，活学活用才是王道！</p>
+</li>
+<li><p>完整demo地址：<a target="_blank" rel="noopener" href="https://github.com/yjf-ll/flutter_dio_network">https://github.com/yjf-ll/flutter_dio_network</a></p>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Flutter/" class="category-chain-item">Flutter</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Flutter/">#Flutter</a>
+      
+        <a href="/tags/Dio/">#Dio</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Flutter使用Dio进行网络交互</div>
+      <div>http://yjf-ll.github.io/2022/02/17/Flutter使用Dio进行网络交互/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Soul</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年2月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/02/27/React-Axios%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82%E5%B0%81%E8%A3%85/" title="React-Axios网络请求封装">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">React-Axios网络请求封装</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/01/13/test/" title="分享Flutter使用缓存的一些经验">
+                        <span class="hidden-mobile">分享Flutter使用缓存的一些经验</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

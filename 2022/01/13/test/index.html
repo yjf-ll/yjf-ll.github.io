@@ -1,0 +1,641 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Soul">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="flutter_cache一：前言在项目开发中有一些数据是经常使用的（比如账号，token等），并且希望重新打开app数据也还在，所有这个时候就可以把一些数据放在缓存中保存起来，下次就可以直接从缓存中获取了，借此，封装一个缓存类还是很有必要的，个人封装思路如下:  使用单例封装一个缓存类，在main函数里面初始化，并在类里面添加一些常用的方法  封装一个工具类来保存常用的键名  demo链接：yj">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分享Flutter使用缓存的一些经验">
+<meta property="og:url" content="http://yjf-ll.github.io/2022/01/13/test/index.html">
+<meta property="og:site_name" content="Soul&#39;s Blog">
+<meta property="og:description" content="flutter_cache一：前言在项目开发中有一些数据是经常使用的（比如账号，token等），并且希望重新打开app数据也还在，所有这个时候就可以把一些数据放在缓存中保存起来，下次就可以直接从缓存中获取了，借此，封装一个缓存类还是很有必要的，个人封装思路如下:  使用单例封装一个缓存类，在main函数里面初始化，并在类里面添加一些常用的方法  封装一个工具类来保存常用的键名  demo链接：yj">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/efe88fecd7144423a54d647be024bc87~tplv-k3u1fbpfcp-watermark.image">
+<meta property="article:published_time" content="2022-01-13T21:50:47.000Z">
+<meta property="article:modified_time" content="2022-12-09T08:56:22.984Z">
+<meta property="article:author" content="Soul">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/efe88fecd7144423a54d647be024bc87~tplv-k3u1fbpfcp-watermark.image">
+  
+  
+  
+  <title>分享Flutter使用缓存的一些经验 - Soul&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yjf-ll.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>编程之旅</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="分享Flutter使用缓存的一些经验"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-01-13 21:50" pubdate>
+          2022年1月13日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          28 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">分享Flutter使用缓存的一些经验</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="flutter-cache"><a href="#flutter-cache" class="headerlink" title="flutter_cache"></a>flutter_cache</h1><h4 id="一：前言"><a href="#一：前言" class="headerlink" title="一：前言"></a>一：前言</h4><p>在项目开发中有一些数据是经常使用的（比如账号，token等），并且希望重新打开app数据也还在，所有这个时候就可以把一些数据放在缓存中保存起来，下次就可以直接从缓存中获取了，借此，封装一个缓存类还是很有必要的，个人封装思路如下:</p>
+<ul>
+<li><p>使用单例封装一个缓存类，在main函数里面初始化，并在类里面添加一些常用的方法</p>
+</li>
+<li><p>封装一个工具类来保存常用的键名</p>
+</li>
+<li><p>demo链接：<a target="_blank" rel="noopener" href="https://github.com/yjf-ll/flutter_cache">yjf-ll&#x2F;flutter_cache (github.com)</a></p>
+</li>
+</ul>
+<h4 id="二：废话不多说，现在开始"><a href="#二：废话不多说，现在开始" class="headerlink" title="二：废话不多说，现在开始"></a>二：废话不多说，现在开始</h4><ul>
+<li><p>在项目中添加缓存依赖库，我这里使用的是shared_preferences </p>
+<blockquote>
+<p>flutter pub add shared_preferences</p>
+</blockquote>
+</li>
+<li><p>编写缓存键名工具类</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">// 缓存里的值的键名, 格式因人因项目而异，我这里取得比较简单</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CacheKey</span> </span>&#123;<br>  <span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-built_in">String</span> TOKEN = <span class="hljs-string">&#x27;app_token&#x27;</span>;<br><br>  <span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-built_in">String</span> PHONE = <span class="hljs-string">&#x27;app_phone&#x27;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>编写缓存类</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AppCache</span> </span>&#123;<br>  <span class="hljs-keyword">final</span> SharedPreferences sharedPreferences;<br><br>  AppCache._(&#123;<span class="hljs-keyword">required</span> <span class="hljs-keyword">this</span>.sharedPreferences&#125;);<br><br>  <span class="hljs-keyword">factory</span> AppCache.create(&#123;<br>    <span class="hljs-keyword">required</span> SharedPreferences sharedPreferences,<br>  &#125;) =&gt;<br>      AppCache._(<br>        sharedPreferences: sharedPreferences,<br>      );<br><br>  <span class="hljs-comment">//  缓存类采取单例模式</span><br>  <span class="hljs-keyword">static</span> AppCache? _instance;<br><br>  <span class="hljs-comment">//  一定要在main里面初始化</span><br>  <span class="hljs-keyword">static</span> Future&lt;<span class="hljs-keyword">void</span>&gt; init() <span class="hljs-keyword">async</span> &#123;<br>    _instance ??= AppCache.create(<br>      sharedPreferences: <span class="hljs-keyword">await</span> SharedPreferences.getInstance(),<br>    );<br>  &#125;<br><br>  <span class="hljs-comment">// 简化获取工具类的缓存实例，以便在下方封装一些方法</span><br>  <span class="hljs-keyword">static</span> SharedPreferences <span class="hljs-keyword">get</span> _pre =&gt; _instance!.sharedPreferences;<br><br>  <span class="hljs-comment">//  封装设置token的方法</span><br>  <span class="hljs-keyword">static</span> Future&lt;<span class="hljs-built_in">bool</span>&gt; setToken(<span class="hljs-built_in">String</span> token) <span class="hljs-keyword">async</span> &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> _pre.setString(CacheKey.TOKEN, token);<br>  &#125;<br><br>  <span class="hljs-comment">//  封装清除token的方法</span><br>  <span class="hljs-keyword">static</span> Future&lt;<span class="hljs-built_in">bool</span>&gt; cleanToken() <span class="hljs-keyword">async</span> &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> _pre.setString(CacheKey.TOKEN, <span class="hljs-string">&#x27;&#x27;</span>);<br>  &#125;<br><br>  <span class="hljs-comment">//  封装获取token的方法</span><br>  <span class="hljs-keyword">static</span> <span class="hljs-built_in">String?</span> <span class="hljs-keyword">get</span> token =&gt; _pre.getString(CacheKey.TOKEN);<br><br>  <span class="hljs-comment">//  封装设置phone的方法</span><br>  <span class="hljs-keyword">static</span> Future&lt;<span class="hljs-built_in">bool</span>&gt; setPhone(<span class="hljs-built_in">String</span> phone) <span class="hljs-keyword">async</span> &#123;<br>    <span class="hljs-keyword">return</span> _pre.setString(CacheKey.PHONE, phone);<br>  &#125;<br><br>  <span class="hljs-comment">//  封装清除phone的方法</span><br>  <span class="hljs-keyword">static</span> Future&lt;<span class="hljs-built_in">bool</span>&gt; cleanPhone() <span class="hljs-keyword">async</span> &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> _pre.setString(CacheKey.PHONE, <span class="hljs-string">&#x27;&#x27;</span>);<br>  &#125;<br><br>  <span class="hljs-comment">//  封装获取phone的方法</span><br>  <span class="hljs-keyword">static</span> <span class="hljs-built_in">String?</span> <span class="hljs-keyword">get</span> phone =&gt; _pre.getString(CacheKey.PHONE);<br><br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>首页代码如下</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><code class="hljs dart">Future&lt;<span class="hljs-keyword">void</span>&gt; main() <span class="hljs-keyword">async</span> &#123;<br>  <span class="hljs-comment">//  这条语句一定要加上，不然会报错，具体原因可以搜一下，这里就不解释了</span><br>  WidgetsFlutterBinding.ensureInitialized();<br>  <span class="hljs-comment">//  初始化缓存工具类</span><br>  <span class="hljs-keyword">await</span> AppCache.init();<br>  runApp(MyApp());<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span> </span>&#123;<br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> MaterialApp(<br>      theme: ThemeData(<br>        primarySwatch: Colors.blue,<br>      ),<br>      home: HomePage(),<br>    );<br>  &#125;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HomePage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatefulWidget</span> </span>&#123;<br>  <span class="hljs-keyword">const</span> HomePage(&#123;Key? key&#125;) : <span class="hljs-keyword">super</span>(key: key);<br><br>  <span class="hljs-meta">@override</span><br>  _HomePageState createState() =&gt; _HomePageState();<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">_HomePageState</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">State</span>&lt;<span class="hljs-title">HomePage</span>&gt; </span>&#123;<br>  <span class="hljs-built_in">String?</span> phone;<br><br>  <span class="hljs-meta">@override</span><br>  <span class="hljs-keyword">void</span> didChangeDependencies() &#123;<br>    <span class="hljs-keyword">super</span>.didChangeDependencies();<br>    getPhone();<br>  &#125;<br><br>  <span class="hljs-keyword">void</span> getPhone() &#123;<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;获取手机号码&#x27;</span>);<br>    setState(() &#123;<br>      <span class="hljs-comment">//  使用方法，直接调用工具类设置的一些get方法就可以获取想要的数据了</span><br>      phone = AppCache.phone;<br>    &#125;);<br>  &#125;<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Scaffold(<br>      appBar: AppBar(<br>        title: Text(<span class="hljs-string">&#x27;Cache demo&#x27;</span>),<br>        centerTitle: <span class="hljs-keyword">true</span>,<br>      ),<br>      body: Center(<br>        child: Column(<br>          mainAxisAlignment: MainAxisAlignment.center,<br>          children: [<br>            Text(<span class="hljs-string">&#x27;当前保存的手机号码是：<span class="hljs-subst">$phone</span>&#x27;</span>),<br>            ElevatedButton(<br>              onPressed: () <span class="hljs-keyword">async</span> &#123;<br>                <span class="hljs-comment">//  保存手机号</span><br>                <span class="hljs-keyword">await</span> AppCache.setPhone(<span class="hljs-string">&#x27;137xxxxxxxx&#x27;</span>);<br>                getPhone();<br>              &#125;,<br>              child: Text(<span class="hljs-string">&#x27;保存&#x27;</span>),<br>            ),<br>            ElevatedButton(<br>              onPressed: () <span class="hljs-keyword">async</span> &#123;<br>                <span class="hljs-comment">//  清除手机号</span><br>                <span class="hljs-keyword">await</span> AppCache.cleanPhone();<br>                getPhone();<br>              &#125;,<br>              child: Text(<span class="hljs-string">&#x27;清除&#x27;</span>),<br>            ),<br>          ],<br>        ),<br>      ),<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>附上demo图，点击保存，重新打开app，手机号还在，完结。感谢看完的小伙伴，倘若有更好的实现方式欢迎一起交流啊  ^_^</p>
+</li>
+</ul>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/efe88fecd7144423a54d647be024bc87~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="img.png"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>分享Flutter使用缓存的一些经验</div>
+      <div>http://yjf-ll.github.io/2022/01/13/test/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Soul</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年1月13日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/02/17/Flutter%E4%BD%BF%E7%94%A8Dio%E8%BF%9B%E8%A1%8C%E7%BD%91%E7%BB%9C%E4%BA%A4%E4%BA%92/" title="Flutter使用Dio进行网络交互">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Flutter使用Dio进行网络交互</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
