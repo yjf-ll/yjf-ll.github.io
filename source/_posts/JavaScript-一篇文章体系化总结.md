@@ -227,7 +227,7 @@ tags:
    因为有可能克隆的对象会存在互相引用的情况，所以也需要做下处理
 
    ```javascript
-   function cloneDeep(source) {
+   function deepClone(source) {
      const target = {}
      const loopList = [
        {
@@ -236,18 +236,15 @@ tags:
          data: source
        }
      ]
-   
      while (loopList.length) {
        const node = loopList.pop()
        const parent = node.parent
        const key = node.key
        const data = node.data
-   
        let res = parent
        if (typeof key !== 'undefined') {
          res = parent[key] = {}
        }
-   
        for (const key in data) {
          if (Object.hasOwnProperty.call(data, key)) {
            if (typeof data[key] === 'object' && data[key] !== null) {
@@ -265,12 +262,139 @@ tags:
      return target
    }
    ```
+   
+2. ### 作用域，变量，this
 
-2. ### 作用域
+   #### 一：作用域
+
+   - 全局作用域：最外层的执行环境
+   - 块级作用域：if语句中的{}里面，for循环
+   - 函数作用域：声明的函数{}里面
+   - 作用域链：在一个作用域中使用了某个变量，会优先从当前作用域去寻找，如果没有则向上一级的作用域查找变量，于是在查找的过程中形成一层一层的链接就是作用域链
+
+   #### 二：变量声明
+
+   ​	先说结论，创建后不会改变的推荐直接使用const，其次使用let，var不推荐使用
+
+   - var，
+
+     - 变量提升：可以在var声明变量语句前直接使用，但是值是undefined，这是因为js 使用这个关键字声明的变量会自动提升到函数作用域 顶部 ，再进行其他操作
+
+       ```javascript
+       console.log(a)
+       //	undefined
+       var a = 'a'
+       ```
+
+       上面的代码相当于：
+
+       ```javascript
+       var a
+       console.log(a)
+       //	undefined
+       a = 'a'
+       ```
+
+     - 声明作用域：声明的是函数作用域，在函数调用结束后，变量就会销毁，
+
+       ```javascript
+       function test() {
+         var a = 'a'
+       }
+       test()
+       console.log(a)
+       //	Uncaught ReferenceError: a is not defined
+       ```
+
+       假设是在块级作用域下声明的变量，在外层依然可以访问到
+
+       ```javascript
+       if(true) {
+         var a = 'a'
+       }
+       console.log(a);
+       //	a
+       console.log(window.a);
+       //	a
+       ```
+
+       因为块级作用域，所以使用var声明的变量会出现下面这种情况，这是因为setTimeout是个宏任务，js会先执行其他同步代码，也就是先循环了5次，最后再执行setTimeout，这个时候因为块级作用域，i的值就是5，所以会打印5次5
+
+       ```javascript
+       for(var i = 0; i< 5; i++) {
+         setTimeout(() => {
+           console.log(i);
+         })
+       }
+       console.log(i);
+       //	5
+       //	5次5
+       ```
+
+       所以上面的解决办法可以是这样：通过setTimeout的第三个参数，传递进方法
+
+       ```javascript
+       for(var i = 0; i< 5; i++) {
+         setTimeout((i) => {
+           console.log(i);
+         },0,i)
+       }
+       console.log(i);
+       //	5
+       //	0
+       //	1
+       //	2
+       //	3
+       //	4
+       ```
+
+       或者利用FFI，立即执行函数，也相当于把参数记录下来传递进打印里
+
+       ```javascript
+       for(var i = 0; i< 5; i++) {
+         (function (i) {
+           setTimeout(() => {
+             console.log(i);
+           })
+         })(i)
+       }
+       console.log(i);
+       //	5
+       //	0
+       //	1
+       //	2
+       //	3
+       //	4
+       ```
+
+       这就是为什么不推荐使用var来声明变量的原因
+
+     - 全局作用域下用var定义的和直接赋值使用的变量会自动挂载到window对象上，看代码：
+
+       ```javascript
+       var a = 'a'
+       console.log(a)
+       //	a
+       console.log(window.a)
+       //	a
+       b = 'b'
+       console.log(b)
+       //	b
+       console.log(window.b)
+       //	b
+       ```
+
+     - 
+
+   - let
 
    #### 一：全局作用域
 
+   ​	最外层的执行环境就是全局作用域
+
    #### 二：块级作用域
+
+   ​	if语句中的{}，就是块级作用域
 
    #### 三：函数作用域
 
