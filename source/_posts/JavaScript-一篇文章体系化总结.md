@@ -314,14 +314,12 @@ tags:
        }
        console.log(a);
        //	a
-       console.log(window.a);
-       //	a
        ```
-
-       因为块级作用域，所以使用var声明的变量会出现下面这种情况，这是因为setTimeout是个宏任务，js会先执行其他同步代码，也就是先循环了5次，最后再执行setTimeout，这个时候因为块级作用域，i的值就是5，所以会打印5次5
+     
+       因为块级作用域，所以使用var声明的变量会出现下面这种情况，这是因为setTimeout是个宏任务，js会先执行其他同步代码，也就是先循环了5次，最后再执行5次setTimeout，这个时候因为块级作用域，i的值就是5，所以会打印5次5
 
        ```javascript
-       for(var i = 0; i< 5; i++) {
+     for(var i = 0; i < 5; i++) {
          setTimeout(() => {
            console.log(i);
          })
@@ -330,11 +328,11 @@ tags:
        //	5
        //	5次5
        ```
-
+     
        所以上面的解决办法可以是这样：通过setTimeout的第三个参数，传递进方法
 
        ```javascript
-       for(var i = 0; i< 5; i++) {
+     for(var i = 0; i< 5; i++) {
          setTimeout((i) => {
            console.log(i);
          },0,i)
@@ -347,11 +345,11 @@ tags:
        //	3
        //	4
        ```
-
-       或者利用FFI，立即执行函数，也相当于把参数记录下来传递进打印里
+     
+       或者利用IIFE，立即执行函数，也相当于把参数记录下来传递进打印里
 
        ```javascript
-       for(var i = 0; i< 5; i++) {
+     for(var i = 0; i< 5; i++) {
          (function (i) {
            setTimeout(() => {
              console.log(i);
@@ -366,39 +364,94 @@ tags:
        //	3
        //	4
        ```
-
-       这就是为什么不推荐使用var来声明变量的原因
-
-     - 全局作用域下用var定义的和直接赋值使用的变量会自动挂载到window对象上，看代码：
+     
+       全局作用域下和块级作用域用var定义的和直接赋值使用的变量会自动挂载到window对象上，看代码：
 
        ```javascript
-       var a = 'a'
+     var a = 'a'
        console.log(a)
-       //	a
+     //	a
        console.log(window.a)
        //	a
-       b = 'b'
-       console.log(b)
+       if (true) {
+         var b = 'b'
+       }
+       console.log(b);
        //	b
        console.log(window.b)
-       //	b
+       //  b
        ```
-
-     - 
+     
+       这就是为什么不推荐使用var来声明变量的原因，规则复杂还有坑，所以能用const和let就不要用var。
 
    - let
 
-   #### 一：全局作用域
+     - 声明一个变量后，依然可以为该变量赋不同的值
 
-   ​	最外层的执行环境就是全局作用域
+     - 块级作用域
 
-   #### 二：块级作用域
+       ```javascript
+       if (true) {
+         let a = 'a'
+       }
+       console.log(a);
+       //  Uncaught ReferenceError: a is not defined
+       ```
 
-   ​	if语句中的{}，就是块级作用域
+     - 暂时性死区
 
-   #### 三：函数作用域
+       ```javascript
+       console.log(a);
+       let a = 'a'
+       //  Uncaught ReferenceError: Cannot access 'a' before initialization
+       ```
 
-   #### 四：作用域链
+       
+
+     - 不能重复声明
+
+   - const
+
+     - 用const声明变量，必须要给到一个初始值
+
+     - 声明以后不能被赋值
+
+     - 块级作用域
+
+       ```javascript
+       if (true) {
+         const a = 'a'
+       }
+       console.log(a);
+       //  Uncaught ReferenceError: a is not defined
+       ```
+
+       
+
+     - 暂时性死区
+
+       ```javascript
+       console.log(a);
+       const a = 'a'
+       //  Uncaught ReferenceError: Cannot access 'a' before initialization
+       ```
+
+     - 不能重重复声明
+
+   - 因为作用域链以及let和const的暂时性死区，打印a变量会优先在fn函数里面寻找a变量，所以下面的代码会报错
+
+     ```javascript
+     var a = 'a'
+     function fn() {
+       console.log(a);
+       // let a = 'b'
+       const a = 'b'
+     }
+     fn()
+     //	Uncaught ReferenceError: Cannot access 'a' before initialization
+     ```
+
+   
 
 3. ### 原型链与继承
 
