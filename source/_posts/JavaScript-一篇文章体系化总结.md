@@ -346,7 +346,7 @@ tags:
        //	4
        ```
      
-       或者利用IIFE，立即执行函数，也相当于把参数记录下来传递进打印里
+       或者利用IIFE（立即执行函数），也相当于把参数记录下来传递进打印里
 
        ```javascript
      for(var i = 0; i< 5; i++) {
@@ -370,7 +370,7 @@ tags:
        ```javascript
      var a = 'a'
        console.log(a)
-     //	a
+     	//	a
        console.log(window.a)
        //	a
        if (true) {
@@ -451,18 +451,119 @@ tags:
      //	Uncaught ReferenceError: Cannot access 'a' before initialization
      ```
 
-   
+   #### 三：this
+
+   - this的指向
+
+     - 全局作用域中this指向window
+
+       ```javascript
+       console.log(this === window);
+       //	true
+       ```
+
+     - 函数作用域中（箭头函数除外），谁调用该函数，this就指向谁
+
+       比如说，在全局作用域中调用该函数，this就指向window
+
+       ```javascript
+       function test() {
+         console.log(this === window);
+       }
+       test()
+       //  true
+       ```
+
+       使用对象调用函数，this就指向该对象
+
+       ```javascript
+       const obj = {
+         test(target) {
+           console.log(this === target);
+         }
+       }
+       obj.test(obj)
+       //	true
+       ```
+
+       我们把test方法取出来，再调用，这是因为取出来的test方法是由window调用的，也可以理解为取出来的方法在全局作用域中执行的，所以this就指向window了
+
+       ```javascript
+       const obj = {
+         test(target) {
+           console.log(this === target);
+         }
+       }
+       obj.test(obj)
+       //  true
+       const test = obj.test
+       test(window)
+       //  true
+       ```
+
+     - 箭头函数没有this，在箭头函数中使用this，永远指向创建该箭头函数的作用域，看例子
+
+       ```javascript
+       const obj = {
+         test: (target) => {
+           console.log(this === target);
+         }
+       }
+       obj.test(obj)
+       //  false
+       obj.test(window)
+       //  true
+       ```
+
+       上面的写法相当于下面的写法，所以该函数中的作用域指向window
+
+       ```javascript
+       const test = (target) => {
+         console.log(this === target);
+       }
+       const obj = {
+         test
+       }
+       obj.test(obj)
+       //  false
+       obj.test(window)
+       //  true
+       ```
+
+       再来看一个例子，这Test里面定义的test方法是个箭头函数，里面的this指向的就是我们创建的a变量，就算把a变量的test方法取出来，里面的this也没有受到影响还是指向a
+
+       ```javascript
+       function Test() {
+         this.test = (target) => {
+           console.log(this === target);
+         }
+       }
+       
+       const a = new Test()
+       a.test(a)
+       a.test(window)
+       //  true
+       //  false
+       
+       const test = a.test
+       test(a)
+       test(window)
+       //  true
+       //  false
+       ```
+
+       
 
 3. ### 原型链与继承
 
-4. ### 事件循环（EventLoop）
+2. ### 事件循环（EventLoop）
 
-5. ### 异步（Promise/async/await）
+3. ### 异步（Promise/async/await）
 
-6. ### Dom
+4. ### Dom
 
-7. ### Bom
+5. ### Bom
 
-8. ### 垃圾回收
+6. ### 垃圾回收
 
-9. ### 常用高阶函数
+7. ### 常用高阶函数
