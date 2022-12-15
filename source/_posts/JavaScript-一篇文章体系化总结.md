@@ -263,7 +263,7 @@ tags:
    }
    ```
    
-2. ### 作用域，变量，this
+2. ### 作用域，闭包，变量，this
 
    #### 一：作用域
 
@@ -272,7 +272,64 @@ tags:
    - 函数作用域：声明的函数{}里面
    - 作用域链：在一个作用域中使用了某个变量，会优先从当前作用域去寻找，如果没有则向上一级的作用域查找变量，于是在查找的过程中形成一层一层的链接就是作用域链
 
-   #### 二：变量声明
+   #### 二：闭包
+
+   - 概念：一般来说，函数执行完后就会被销毁，但闭包就是创建一个不会被销毁的函数作用域，并且能通过某种手段访问到该作用域中的变量。
+
+     ```javascript
+     function closure() {
+       let count  = 0;
+       return () => count++;
+     }
+     const test = closure()
+     console.log(test());
+     console.log(test());
+     console.log(test());
+     //  0
+     //  1
+     //  2
+     ```
+
+   - 防抖：在一定时间段内只会触发一次事件
+
+     ```javascript
+     function debounce(callback,delay) {
+       let timer = null
+       return function () {
+         if(timer !== null) {
+           clearTimeout(timer)
+         }
+         timer = setTimeout(() => callback(),delay)
+       }
+     }
+     
+     const btn = document.getElementById('btn')
+     
+     btn.addEventListener('click',debounce(() => {console.log('click')},500))
+     ```
+
+   - 节流：每隔一段时间触发一次
+
+     ```javascript
+     function throttle(callback,delay) {
+       let timer = null
+       return function () {
+         if(timer !== null) return;
+         timer = setTimeout(() => {
+           callback()
+           timer = null
+         },delay)
+       }
+     }
+     
+     const btn = document.getElementById('btn')
+     
+     btn.addEventListener('click',throttle(() => {console.log('click')},500))
+     ```
+
+     其实防抖和节流很像，防抖根据是否有定时器就清楚定时器，重新计时，节流呢就是有定时器了就直接不管，等到定时器结束再重新执行一个定时器，理解了这些想要扩展也就轻松了。
+
+   #### 三：变量声明
 
    ​	先说结论，创建后不会改变的推荐直接使用const，其次使用let，var不推荐使用
 
@@ -295,7 +352,7 @@ tags:
        a = 'a'
        ```
 
-     - 声明作用域：声明的是函数作用域，在函数调用结束后，变量就会销毁，
+     - 函数作用域：在函数调用结束后，变量就会销毁，
 
        ```javascript
        function test() {
@@ -365,7 +422,7 @@ tags:
        //	4
        ```
      
-       全局作用域下和块级作用域用var定义的和直接赋值使用的变量会自动挂载到window对象上，看代码：
+       并且全局作用域下和块级作用域用var定义的和直接赋值使用的变量会自动挂载到window对象上，看代码：
 
        ```javascript
      var a = 'a'
@@ -390,6 +447,8 @@ tags:
 
      - 块级作用域
 
+       if语句结束后，a变量就销毁了，所以访问就会出错
+
        ```javascript
        if (true) {
          let a = 'a'
@@ -400,13 +459,13 @@ tags:
 
      - 暂时性死区
 
+       不能在声明前使用该变量
+       
        ```javascript
        console.log(a);
        let a = 'a'
-       //  Uncaught ReferenceError: Cannot access 'a' before initialization
+     //  Uncaught ReferenceError: Cannot access 'a' before initialization
        ```
-
-       
 
      - 不能重复声明
 
@@ -426,16 +485,14 @@ tags:
        //  Uncaught ReferenceError: a is not defined
        ```
 
-       
-
      - 暂时性死区
 
        ```javascript
-       console.log(a);
+     console.log(a);
        const a = 'a'
        //  Uncaught ReferenceError: Cannot access 'a' before initialization
        ```
-
+     
      - 不能重重复声明
 
    - 因为作用域链以及let和const的暂时性死区，打印a变量会优先在fn函数里面寻找a变量，所以下面的代码会报错
@@ -533,8 +590,8 @@ tags:
        再来看一个例子，这Test里面定义的test方法是个箭头函数，里面的this指向的就是我们创建的a变量，就算把a变量的test方法取出来，里面的this也没有受到影响还是指向a
 
        ```javascript
-       function Test() {
-         this.test = (target) => {
+       class Test {
+         test = (target) => {
            console.log(this === target);
          }
        }
@@ -552,18 +609,113 @@ tags:
        //  false
        ```
 
-       
+   - 修改this的指向
 
-3. ### 原型链与继承
+     - bind：返回一个改变this的指向的新函数，至于参数什么的直接看MDN文档吧https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/bind 
+
+       ```javascript
+       var name = 'window'
+       const obj = {
+         name: 'obj'
+       }
+       function test () {
+         console.log(this.name);
+       }
+       test()
+       //  window
+       const changedTest = test.bind(obj)
+       changedTest()
+       //  obj
+       console.log(test === changedTest);
+       //  false
+       ```
+
+     - call：修改当前调用函数中的this指向并立即执行，执行完后不会对原函数有影响
+
+       ```javascript
+       var name = 'window'
+       const obj = {
+         name: 'obj'
+       }
+       function test () {
+         console.log(this.name);
+       }
+       test.call(obj)
+       //  obj
+       ```
+
+     - apply
+
+       ```javascript
+       var name = 'window'
+       const obj = {
+         name: 'obj'
+       }
+       function test () {
+         console.log(this.name);
+       }
+       test.apply(obj)
+       //  obj
+       ```
+
+        call和apply只有一个区别，就是 call方法接受的是一个参数列表，而 apply 方法接受的是一个包含多个参数的数组 
+
+   - 实现bind方法
+
+1. ## 原型链与继承
+
+   1. #### 原型链是什么
+
+   2. #### 寄生
+
+   3. #### 组合
+
+   4. #### 组合寄生
+
+   5. #### 继承
 
 2. ### 事件循环（EventLoop）
 
+   因为js是单线程的，碰到需要不知道多久才能处理完的事件，会先把他挂起，然后去执行完任务栈里面的事件，再去执行挂起的任务栈， js任务分为两种，一种是同步任务，一种是异步任务，异步任务中又分为微任务和宏任务，js的执行栈会先执行同步任务，碰到异步任务会先挂起到另外一个队列中，等执行完同步任务再去执行异步任务队列，执行异步任务队列的时候会先执行微任务，微任务执行完了再执行宏任务，一直循环，这就是事件循环。
+
+   - 微任务：Promise.then/catch/finally
+   - 宏任务：setTimeout，setInterval
+
 3. ### 异步（Promise/async/await）
+
+   Promise的作用
+
+   async，await的作用
 
 4. ### Dom
 
+   1. 增删改查
+
 5. ### Bom
+
+   1. window
+   2. navigotar
+   3. history
+   4. LocalStorage
+   5. SesstionStorage
 
 6. ### 垃圾回收
 
-7. ### 常用高阶函数
+   1. v8的
+
+7. ### 常用api
+
+   - Object
+     - Object.keys(xxx)	获取对象所有的键名组成的数组
+     - Object.values(xxx)	获取对象所有的值组成的数组
+     - Object.prototype.toString.call(xxx)    获取对象的类型
+
+   - Array
+     - xxx.map(el => el)	对数组做层处理并返回处理后组成的新数组
+     - xxx.filter(el => el !== xxx)	对数组做层过滤并返回过滤后组成的新数组
+     - xxx.find(el => el)	对数组做层处理并返回处理后的数据组成的新数组
+     - xxx.findIndex(el => el)	对数组做层处理并返回处理后的数据组成的新数组
+     - xxx.reduce((x,y) => x + y,0 )	对数组做层处理并返回处理后的数据组成的新数组
+     - xxx.forEach(el => el)	对数组做层处理并返回处理后的数据组成的新数组
+
+   
