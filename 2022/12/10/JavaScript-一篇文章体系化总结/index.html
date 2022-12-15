@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="d:\project\yjf-ll.github.io\source\img\1670684300908.png">
 <meta property="article:published_time" content="2022-12-10T17:00:59.000Z">
-<meta property="article:modified_time" content="2022-12-15T09:36:02.578Z">
+<meta property="article:modified_time" content="2022-12-15T10:13:48.980Z">
 <meta property="article:author" content="Soul">
 <meta property="article:tag" content="JavaScript">
 <meta name="twitter:card" content="summary_large_image">
@@ -222,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          11k 字
+          12k 字
         
       </span>
     
@@ -233,7 +233,7 @@
         
         
         
-          94 分钟
+          101 分钟
         
       </span>
     
@@ -474,16 +474,35 @@
 <li><p>apply</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> name = <span class="hljs-string">&#x27;window&#x27;</span><br><span class="hljs-keyword">const</span> obj = &#123;<br>  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;obj&#x27;</span><br>&#125;<br><span class="hljs-keyword">function</span> <span class="hljs-title function_">test</span> () &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span>);<br>&#125;<br>test.<span class="hljs-title function_">apply</span>(obj)<br><span class="hljs-comment">//  obj</span><br></code></pre></td></tr></table></figure>
 
-<p> call和apply只有一个区别，就是 call方法接受的是一个参数列表，而 apply 方法接受的是一个包含多个参数的数组</p>
-</li>
-</ul>
+<p> call和apply只有一个区别，就是 call方法接受的是一个参数列表，而 apply 方法接受的是一个包含多个参数的数组 </p>
 </li>
 <li><p>实现bind方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">bind</span>(<span class="hljs-params">callback,source</span>) &#123;<br>  <span class="hljs-keyword">const</span> args = [...<span class="hljs-variable language_">arguments</span>].<span class="hljs-title function_">splice</span>(<span class="hljs-number">2</span>)<br>  <span class="hljs-keyword">return</span> <span class="hljs-function">() =&gt;</span> callback.<span class="hljs-title function_">call</span>(source,...args)<br>&#125;<br><br><span class="hljs-keyword">const</span> obj = &#123;<br>  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;obj&#x27;</span><br>&#125;<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">test</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span>)<br>&#125;<br><br><span class="hljs-keyword">const</span> fn = <span class="hljs-title function_">bind</span>(test,obj)<br><span class="hljs-title function_">fn</span>()<br><span class="hljs-comment">//	obj</span><br></code></pre></td></tr></table></figure></li>
+</ul>
 </li>
 </ul>
 </li>
-<li><h2 id="原型链与继承"><a href="#原型链与继承" class="headerlink" title="原型链与继承"></a>原型链与继承</h2><ol>
-<li><h4 id="原型链是什么"><a href="#原型链是什么" class="headerlink" title="原型链是什么"></a>原型链是什么</h4></li>
+<li><h2 id="原型链与继承"><a href="#原型链与继承" class="headerlink" title="原型链与继承"></a>原型链与继承</h2><ul>
+<li><h4 id="原型链是什么"><a href="#原型链是什么" class="headerlink" title="原型链是什么"></a>原型链是什么</h4><p>先了解一些基础知识，构造函数会有一个prototype属性指向一个对象，该对象就叫原型对象，上面会有一些方法或者属性之类的，并且通过构造函数生成的实例会有__ proto __ 的属性指向构造函数的原型对象，这样做有啥好处呢，就是我们调用实例上某些方法的时候，假如实例没有该方法，就自动会往它指向的原型对象上去寻找该方法，因为原型对象也是其他构成函数生成的，假设原型对象也没有我们想要的方法的话，自然也会向上去找生成原型对象的构造函数上的原型对象，循环往复直到找不到为止，这种向上查找属性或者方法的链接关系就是原型链。</p>
+<p>简单概括就是（个人理解）：实例与构造函数上的原型对象之间一层一层的链接关系。</p>
+<ul>
+<li><p>举个简单例子验证下原型之间的关系</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">Person</span>(<span class="hljs-params"></span>) &#123;&#125;<br><span class="hljs-keyword">const</span> p1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>()<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(p1.<span class="hljs-property">__proto__</span> === <span class="hljs-title class_">Person</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>);<br><span class="hljs-comment">//  true</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>所有构造函数的__ proto __ 都是指向Function的prototype</p>
+</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">     <br></code></pre></td></tr></table></figure>
+
+
+</li>
+<li><h4 id="原型链起到什么作用"><a href="#原型链起到什么作用" class="headerlink" title="原型链起到什么作用"></a>原型链起到什么作用</h4><ul>
+<li>好处：因为实例与构造函数共享一个原型对象，这也意味着只要很小的开销就能实现某些功能上的复用，并且为原型对象添加一些方法之类的，所有构造函数生成的实例什么都不用干，就能直接使我们添加的新方法。</li>
+<li>坏处：原型对象是可以更改的，这也意味着不正当使用，会污染生成的实例，并造成一定影响。</li>
+</ul>
+</li>
+</ul>
+<ol>
 <li><h4 id="寄生"><a href="#寄生" class="headerlink" title="寄生"></a>寄生</h4></li>
 <li><h4 id="组合"><a href="#组合" class="headerlink" title="组合"></a>组合</h4></li>
 <li><h4 id="组合寄生"><a href="#组合寄生" class="headerlink" title="组合寄生"></a>组合寄生</h4></li>
