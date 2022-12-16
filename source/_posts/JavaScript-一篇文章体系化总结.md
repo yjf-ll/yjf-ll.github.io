@@ -5,265 +5,267 @@ tags:
 - JavaScript
 ---
 
-# JavaScript体系总结
+# JavaScript基础原理解析笔记
 
-> 本文纯属个人学习笔记，如有错误，也请劳烦指出，谢谢~
+> 本文纯属个人学习理解的东西（包含一些相关知识的编程题），如有错误，也请劳烦指出，共同成长，谢谢~
 
-1. ### 数据类型
+### 数据类型
 
-   #### 一：js的数据类型分为原始类型和引用数据类型，我们目前可以简单认为原始类型的值是存放在栈中，而引用类型是存放在堆中的，这样有助于我们理解下面的知识。关于数据具体是存放在哪里的，想了解的详情可以看 [(10 封私信 / 28 条消息) JavaScript中变量存储在堆中还是栈中？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/482433315) 
+#### 一：原始类型和引用类型
 
-   原始类型：
+> 我们目前可以简单认为原始类型的值是存放在栈中，而引用类型是存放在堆中的，这样有助于我们理解下面的知识。关于数据具体是存放在哪里的，想具体了解的详情可以看某乎对于这个问题的回答：JavaScript中变量存储在堆中还是栈中？
 
-   - String
-   - Number
-   - Boolean
-   - Undefined
-   - Symbol
-   - BigInt
-   - Null
+原始类型：
 
-   引用类型：
+- String
+- Number
+- Boolean
+- Undefined
+- Symbol
+- BigInt
+- Null
 
-   - Object
-   - Array
-   - Function
-   - Date
-   - Set
-   - Map
-   - ...
+引用类型：
 
-   #### 二：判断数据类型的方法
+- Object
+- Array
+- Function
+- Date
+- Set
+- Map
+- ...
 
-   - typeof
+#### 二：判断数据类型的方法
 
-     先说结论，typeof操作符可以较为精准的判断原始类型，为什么说较为精准，是因为Null是原始类型，但是typeof null却是返回object， 这是因为特殊值 null 被认为是一个对空对象的引用。 
+- typeof
 
-     对于引用类型，除了Function，其他都是直接返回object，
+  先说结论，typeof操作符可以较为精准的判断原始类型，为什么说较为精准，是因为Null是原始类型，但是typeof null却是返回object， 这是因为特殊值 null 被认为是一个对空对象的引用。 
 
-     ```javascript
-     console.log(typeof '')
-     //	'string'
-     console.log(typeof 0)
-     //	'number'
-     console.log(typeof true)
-     //	'boolean'
-     console.log(typeof undefined)
-     //	'undefined'
-     console.log(typeof null)
-     //	'object'
-     console.log(typeof BigInt(1))
-     //	'bigint'
-     console.log(typeof Symbol(''))
-     //	'symbol'
-     console.log(typeof {})
-     //	'object'
-     console.log(typeof (() => {}))
-     //  'function
-     console.log(typeof [])
-     //	'object'
-     ```
+  对于引用类型，除了Function，其他都是直接返回object，
 
-     
+  ```javascript
+  console.log(typeof '')
+  //	'string'
+  console.log(typeof 0)
+  //	'number'
+  console.log(typeof true)
+  //	'boolean'
+  console.log(typeof undefined)
+  //	'undefined'
+  console.log(typeof null)
+  //	'object'
+  console.log(typeof BigInt(1))
+  //	'bigint'
+  console.log(typeof Symbol(''))
+  //	'symbol'
+  console.log(typeof {})
+  //	'object'
+  console.log(typeof (() => {}))
+  //  'function
+  console.log(typeof [])
+  //	'object'
+  ```
 
-   - instanceof
+  
 
-     instanceof用来判断变量是属于哪种引用类型，虽然typeof null 是object类型，但是null其实是个原始类型，因此null instanceof Object是false
+- instanceof
 
-     ```javascript
-     console.log(null instanceof Object) //  false
-     console.log({} instanceof Object)   //  true
-     console.log([] instanceof Array)    //  true
-     console.log([] instanceof Object)   //  true
-     console.log((() => {}) instanceof Function) //  true
-     console.log((() => {}) instanceof Object)   //  true
-     ```
+  instanceof用来判断变量是属于哪种引用类型，虽然typeof null 是object类型，但是null其实是个原始类型，因此null instanceof Object是false
 
-     该操作符判断的原理是去寻找类型是否存在于变量所属的原型链中，所以[] 既是Array类型也是Object类型（这里需要了解原型链相关的知识才能理解，但又因为是数据类型相关，所以放在这里）。因此我们也可以写一个方法来模拟instanceof功能
+  ```javascript
+  console.log(null instanceof Object) //  false
+  console.log({} instanceof Object)   //  true
+  console.log([] instanceof Array)    //  true
+  console.log([] instanceof Object)   //  true
+  console.log((() => {}) instanceof Function) //  true
+  console.log((() => {}) instanceof Object)   //  true
+  ```
 
-     ```javascript
-     
-     ```
+  该操作符判断的原理是去寻找类型是否存在于变量所属的原型链中，所以[] 既是Array类型也是Object类型（这里需要了解原型链相关的知识才能理解，但又因为是数据类型相关，所以放在这里）。因此我们也可以写一个方法来模拟instanceof功能
 
-     
+  ```javascript
+  
+  ```
 
-   - Object.prototype.toString.call(variable)
+  
 
-     通过该方法就可以简单的获取变量的类型
+- Object.prototype.toString.call(variable)
 
-     ```javascript
-     console.log(Object.prototype.toString.call(''))
-     //  [object String]
-     console.log(Object.prototype.toString.call(0))
-     //  [object Number]
-     console.log(Object.prototype.toString.call(true))
-     //  [object Boolean]
-     console.log(Object.prototype.toString.call(undefined))
-     //  [object Undefined]
-     console.log(Object.prototype.toString.call(null))
-     //  [object Null]
-     console.log(Object.prototype.toString.call(1n))
-     //  [object BigInt]
-     console.log(Object.prototype.toString.call(Symbol('')))
-     //  [object Symbol]
-     console.log(Object.prototype.toString.call({}))
-     //  [object Object]
-     console.log(Object.prototype.toString.call([]))
-     //  [object Array]
-     console.log(Object.prototype.toString.call((() => {})))
-     //  [object Function]
-     ```
+  通过该方法就可以简单的获取变量的类型
 
-     因此，也可以简单的把获取变量的逻辑抽离成一个工具函数，思路如下：
+  ```javascript
+  console.log(Object.prototype.toString.call(''))
+  //  [object String]
+  console.log(Object.prototype.toString.call(0))
+  //  [object Number]
+  console.log(Object.prototype.toString.call(true))
+  //  [object Boolean]
+  console.log(Object.prototype.toString.call(undefined))
+  //  [object Undefined]
+  console.log(Object.prototype.toString.call(null))
+  //  [object Null]
+  console.log(Object.prototype.toString.call(1n))
+  //  [object BigInt]
+  console.log(Object.prototype.toString.call(Symbol('')))
+  //  [object Symbol]
+  console.log(Object.prototype.toString.call({}))
+  //  [object Object]
+  console.log(Object.prototype.toString.call([]))
+  //  [object Array]
+  console.log(Object.prototype.toString.call((() => {})))
+  //  [object Function]
+  ```
 
-     ```javascript
-     const typeUtils = {
-         getType(value) {
-             const typeStr = Object.prototype.toString.call(value)
-             return typeStr.slice(8,typeStr.length - 1)
-         },
-         isString(value) {
-             return typeUtils.getType(value) === 'String'
-         },
-         isNumber(value) {
-             return typeUtils.getType(value) === 'Number'
-         },
-         isFunction(value) {
-             return typeUtils.getType(value) === 'Function'
-         }
-     }
-     console.log(typeUtils.getType(null))    //  Null
-     console.log(typeUtils.isString(''))     //  true
-     console.log(typeUtils.isNumber(0))      //  true
-     console.log(typeUtils.isFunction(() => {})) //  true
-     ```
+  因此，也可以简单的把获取变量的逻辑抽离成一个工具函数，思路如下：
 
-   #### 三：关于数据类型个人觉得有些要注意的点
+  ```javascript
+  const typeUtils = {
+      getType(value) {
+          const typeStr = Object.prototype.toString.call(value)
+          return typeStr.slice(8,typeStr.length - 1)
+      },
+      isString(value) {
+          return typeUtils.getType(value) === 'String'
+      },
+      isNumber(value) {
+          return typeUtils.getType(value) === 'Number'
+      },
+      isFunction(value) {
+          return typeUtils.getType(value) === 'Function'
+      }
+  }
+  console.log(typeUtils.getType(null))    //  Null
+  console.log(typeUtils.isString(''))     //  true
+  console.log(typeUtils.isNumber(0))      //  true
+  console.log(typeUtils.isFunction(() => {})) //  true
+  ```
 
-   - NaN !== NaN	//	true
+#### 三：关于数据类型个人觉得有些要注意的点
 
-   - typeof NaN    //    number
+- NaN !== NaN	//	true
 
-     也就是说NaN是number类型的，所以在对数据做一些判断的时候一定要注意NaN
+- typeof NaN    //    number
 
-   - 0.1 + 0.2 !== 0.3    //    true
+  也就是说NaN是number类型的，所以在对数据做一些判断的时候一定要注意NaN
 
-     这是因为js的精度导致的，解决办法简单的可以都乘100再进行计算，最后除100就可以了，或者直接使用相关库去处理是最稳妥的
+- 0.1 + 0.2 !== 0.3    //    true
 
-   #### 四：深浅拷贝
+  这是因为js的精度导致的，直接使用相关库去处理是最稳妥的
 
-   这里先解释下为什么需要深浅拷贝
+#### 四：深浅拷贝
 
-   > 我们声明引用变量的时候，真正的值是存放在堆中的，而我们变量保存的是指向该值的一个指针（指针是存放在栈中的），所以我们直接复制一个引用类型的变量，其实是复制一个指向真正的值的一个指针，因此原来的变量和复制后的变量指向的都是相同的值。下面的图源自红宝书：
+这里先解释下为什么需要深浅拷贝
 
-   ![1670684300908](D:\project\yjf-ll.github.io\source\img\1670684300908.png)
+> 我们声明引用变量的时候，真正的值是存放在堆中的，而我们变量保存的是指向该值的一个指针（指针是存放在栈中的），所以我们直接复制一个引用类型的变量，其实是复制一个指向真正的值的一个指针，因此原来的变量和复制后的变量指向的都是相同的值。下面的图源自红宝书：
 
-   因此会出现下面的情况
+![1670684300908](D:\project\yjf-ll.github.io\source\img\1670684300908.png)
 
-   ```javascript
-   const obj1 = {}
-   const obj2 = obj1
-   obj2.name = 'soul'
-   console.log(obj1.name)
-   //	soul
-   ```
+因此会出现下面的情况
 
-   浅拷贝就是创建一个新的对象，再把原对象的值的第一层都复制一遍，因此深层次的属性改变，原对象还是会被影响
+```javascript
+const obj1 = {}
+const obj2 = obj1
+obj2.name = 'soul'
+console.log(obj1.name)
+//	soul
+```
 
-   ```javascript
-   function clone(source) {
-       const target = {}
-       for(let key in source) {
-           target[key] = source[key]
-       }
-       return target
-   }
-   
-   const obj1 = {ext: {name: 'soul'}}
-   const obj2 = clone(obj1)
-   obj2.name = 'soul'
-   console.log(obj1.name)
-   //	undefined
-   obj2.ext.name = 'none'
-   console.log(obj1.ext.name)
-   //	none
-   ```
+浅拷贝就是创建一个新的对象，再把原对象的值的第一层都复制一遍，因此深层次的属性改变，原对象还是会被影响
 
-   深拷贝就是通过递归不断的创建新对象再复制原对象相应的值，简单实现如下：
+```javascript
+function clone(source) {
+    const target = {}
+    for(let key in source) {
+        target[key] = source[key]
+    }
+    return target
+}
 
-   ```javascript
-   function deepClone(source) {
-       if(typeof source !== 'object' && source === null) return source;
-       const type = Object.prototype.toString.call(source)
-       if(type === '[object Array]') {
-           return source.map(deepClone)
-       }
-       if(type === '[object Object]') {
-           const target = {}
-           for(let key in source) {
-               target[key] = deepClone(source[key])
-           }
-           return target
-       }
-       return source;
-   }
-   
-   const obj1 = {ext: {name: 'soul'}}
-   const obj2 = deepClone(obj1)
-   obj2.name = 'soul'
-   console.log(obj1.name)
-   //	undefined
-   obj2.ext.name = 'none'
-   console.log(obj1.ext.name)
-   //	soul
-   
-   const arr1 = []
-   const arr2 = deepClone(arr1)
-   arr2.push('test')
-   console.log(arr1)
-   //  []
-   ```
+const obj1 = {ext: {name: 'soul'}}
+const obj2 = clone(obj1)
+obj2.name = 'soul'
+console.log(obj1.name)
+//	undefined
+obj2.ext.name = 'none'
+console.log(obj1.ext.name)
+//	none
+```
 
-   因为有可能克隆的对象会存在互相引用的情况，所以也需要做下处理
+深拷贝就是通过递归不断的创建新对象再复制原对象相应的值，简单实现如下：
 
-   ```javascript
-   function deepClone(source) {
-     const target = {}
-     const loopList = [
-       {
-         parent: target,
-         key: undefined,
-         data: source
-       }
-     ]
-     while (loopList.length) {
-       const node = loopList.pop()
-       const parent = node.parent
-       const key = node.key
-       const data = node.data
-       let res = parent
-       if (typeof key !== 'undefined') {
-         res = parent[key] = {}
-       }
-       for (const key in data) {
-         if (Object.hasOwnProperty.call(data, key)) {
-           if (typeof data[key] === 'object' && data[key] !== null) {
-             loopList.push({
-               parent: res,
-               key,
-               data: data[key]
-             })
-           } else {
-             res[key] = data[key]
-           }
-         }
-       }
-     }
-     return target
-   }
-   ```
-   
-2. ### 作用域，闭包，变量，this
+```javascript
+function deepClone(source) {
+    if(typeof source !== 'object' && source === null) return source;
+    const type = Object.prototype.toString.call(source)
+    if(type === '[object Array]') {
+        return source.map(deepClone)
+    }
+    if(type === '[object Object]') {
+        const target = {}
+        for(let key in source) {
+            target[key] = deepClone(source[key])
+        }
+        return target
+    }
+    return source;
+}
+
+const obj1 = {ext: {name: 'soul'}}
+const obj2 = deepClone(obj1)
+obj2.name = 'soul'
+console.log(obj1.name)
+//	undefined
+obj2.ext.name = 'none'
+console.log(obj1.ext.name)
+//	soul
+
+const arr1 = []
+const arr2 = deepClone(arr1)
+arr2.push('test')
+console.log(arr1)
+//  []
+```
+
+因为有可能克隆的对象会存在互相引用的情况，所以也需要做下处理
+
+```javascript
+function deepClone(source) {
+  const target = {}
+  const loopList = [
+    {
+      parent: target,
+      key: undefined,
+      data: source
+    }
+  ]
+  while (loopList.length) {
+    const node = loopList.pop()
+    const parent = node.parent
+    const key = node.key
+    const data = node.data
+    let res = parent
+    if (typeof key !== 'undefined') {
+      res = parent[key] = {}
+    }
+    for (const key in data) {
+      if (Object.hasOwnProperty.call(data, key)) {
+        if (typeof data[key] === 'object' && data[key] !== null) {
+          loopList.push({
+            parent: res,
+            key,
+            data: data[key]
+          })
+        } else {
+          res[key] = data[key]
+        }
+      }
+    }
+  }
+  return target
+}
+```
+
+1. ### 作用域
 
    #### 一：作用域
 
@@ -685,39 +687,153 @@ tags:
 
    - #### 原型链是什么
 
-     先了解一些基础知识，构造函数会有一个prototype属性指向一个对象，该对象就叫原型对象，上面会有一些方法或者属性之类的，并且通过构造函数生成的实例会有__ proto __ 的属性指向构造函数的原型对象，这样做有啥好处呢，就是我们调用实例上某些方法的时候，假如实例没有该方法，就自动会往它指向的原型对象上去寻找该方法，因为原型对象也是其他构成函数生成的，假设原型对象也没有我们想要的方法的话，自然也会向上去找生成原型对象的构造函数上的原型对象，循环往复直到找不到为止，这种向上查找属性或者方法的链接关系就是原型链。
+     先说结论（个人理解）：原型链是指实例与构造函数指向的原型对象之间的关系，因为原型对象也是其他构造函数的实例，所以这个关系可能会非常深。
 
-     简单概括就是（个人理解）：实例与构造函数上的原型对象之间一层一层的链接关系。
+     有三个知识点：
 
-     - 举个简单例子验证下原型之间的关系
+     - 构造函数有prototype属性指向一个对象，这个对象就是原型对象
+
+     - 原型对象有constructor属性，指向构造函数
+
+     - 实例有__ proto __属性指向构造函数的原型对象
 
        ```javascript
        function Person() {}
        const p1 = new Person()
-       console.log(p1.__proto__ === Person.prototype);
+       console.log(p1.__proto__ === Person.prototype)
+       console.log(Person.prototype.constructor === Person)
+       //  true
+       //	true
+       ```
+
+       他们之间的关系就是这样的：
+
+       ![1671168650183](C:\learn\blog\yjf-ll.github.io\source\img\1671168650183.png)
+
+       因为构造函数是Function的实例，所以他们的关系是这样的：
+
+       ![1671169678058](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\1671169678058.png)
+
+       我们来验证下这个关系
+
+       ```javascript
+       function Person() {}
+       const p1 = new Person()
+       console.log(Person instanceof Function);
+       //  true
+       console.log(Person.__proto__ === Function.prototype);
+       //  true
+       console.log(p1.__proto__.constructor.__proto__.constructor === Function);
        //  true
        ```
 
-     - 所有构造函数的__ proto __ 都是指向Function的prototype
+       构造函数的原型对象又是Object的实例，然后Object的原型的__ proto __指向的是null，因此，关系变成这样了
 
-     ```
+       ![1671171880101](C:\learn\blog\yjf-ll.github.io\source\img\1671171880101.png)
+
+       老道理，验证下
+
+       ```javascript
+       function Person() {}
+       console.log(Person.prototype.__proto__ === Object.prototype);
+       //  true
+       console.log(Function.prototype.__proto__ === Object.prototype);
+       //  true
+       console.log(Person.prototype.__proto__.__proto__ === null);
+       //  true
+       console.log(Function.prototype.__proto__.__proto__ === null);
+       //  true
+       ```
+
+       好，到这里其实上面的图对那些关系描述的还是挺清晰的，最模糊的来了，先看例子再结合最终图理解下
+
+       ```javascript
+       //  Function 构造了它自己！！这就意味着
+       console.log(Function instanceof Function);
+       //  true
+       console.log(Function.__proto__ === Function.prototype);
+       //  true
+       console.log(Function.__proto__.constructor === Function);
+       //  true
+       
+       //  而Object构造函数也是一个函数实例，这意味着
+       console.log(Object instanceof Function);
+       //  true
+       
+       //  我们现在把Object当作一个普通的构造函数来看，这就可以解释下面的语句了
+       console.log(Object instanceof Object);
+       //  true
+       //  这是因为
+       console.log(Object.__proto__.__proto__.constructor === Object);
+       //  true
+       ```
+
+       ![1671176981710](C:\learn\blog\yjf-ll.github.io\source\img\1671176981710.png)
+
+       好，我个人理解的原型链的关系就是这样了。
+
+   - #### 原型链有什么用
+
+     原型链的作用就是，调用实例上的某个方法或属性时，假设该实例没有这些东西，那么就会自动向上查找其原型对象有没有，然后原型对象没有就又会向上去查找，直到找到null为止，这也解释了，为什么我们创建一个对象，明明啥也没添加，为什么还能调用某些方法的原因，这是因为那些方法在相应的原型上
+
+   - #### 原型对象的优缺点
+
+     优点：
+
+     - 实例默认共享原型对象上的属性与方法
+     - 实例想要覆盖方法与属性比较简单，直接在实例上面添加同名的方法或属性可以了
+     - 因为实例与构造函数共享一个原型对象，可以节省不必要的开销
+
+     缺点：
+
+     - 可以直接修改原型对象上的方法，污染全局，给人造成疑惑
+
+       ```javascript
+       Array.prototype.push = () => {
+         console.error('浏览器崩溃了~')
+       }
+       const arr = []
+       arr.push(1)
+       //  push error
+       console.log(arr)
+       //  []
+       ```
+
+       ![1671161729223](C:\learn\blog\yjf-ll.github.io\source\img\1671161729223.png)
+
+       
+
+   - #### 寄生式组合继承
+
+     这里我也不一个一个去推了，直接来比较完美的方案吧
+
+     ```javascript
+     function SuperType(name) { 
+      this.name = name; 
+      this.colors = ["red", "blue", "green"]; 
+     } 
+     SuperType.prototype.sayName = function() { 
+      console.log(this.name); 
+     }; 
+     function SubType(name, age){ 
+      SuperType.call(this, name); // 第二次调用 SuperType() 
+      this.age = age; 
+     } 
+     SubType.prototype = new SuperType(); // 第一次调用 SuperType() 
+     SubType.prototype.constructor = SubType; 
+     SubType.prototype.sayAge = function() { 
+      console.log(this.age); 
+     }; 
      
      ```
 
      
 
-   - #### 原型链起到什么作用
+   1. #### 组合
 
-     - 好处：因为实例与构造函数共享一个原型对象，这也意味着只要很小的开销就能实现某些功能上的复用，并且为原型对象添加一些方法之类的，所有构造函数生成的实例什么都不用干，就能直接使我们添加的新方法。
-     - 坏处：原型对象是可以更改的，这也意味着不正当使用，会污染生成的实例，并造成一定影响。
+   2. #### 组合寄生
 
-   1. #### 寄生
-
-   2. #### 组合
-
-   3. #### 组合寄生
-
-   4. #### 继承
+   3. #### 继承
 
 2. ### 事件循环（EventLoop）
 
