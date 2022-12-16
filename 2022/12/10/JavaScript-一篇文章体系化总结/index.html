@@ -16,16 +16,21 @@
   <meta name="author" content="Soul">
   <meta name="keywords" content="">
   
-    <meta name="description" content="JavaScript体系总结 本文纯属个人学习笔记，如有错误，也请劳烦指出，谢谢~   数据类型一：js的数据类型分为原始类型和引用数据类型，我们目前可以简单认为原始类型的值是存放在栈中，而引用类型是存放在堆中的，这样有助于我们理解下面的知识。关于数据具体是存放在哪里的，想了解的详情可以看 (10 封私信 &#x2F; 28 条消息) JavaScript中变量存储在堆中还是栈中？ - 知乎 (z">
+    <meta name="description" content="JavaScript基础原理解析笔记 本文纯属个人学习理解的东西（包含一些相关知识的编程题），如有错误，也请劳烦指出，共同成长，谢谢~  数据类型一：原始类型和引用类型 我们目前可以简单认为原始类型的值是存放在栈中，而引用类型是存放在堆中的，这样有助于我们理解下面的知识。关于数据具体是存放在哪里的，想具体了解的详情可以看某乎对于这个问题的回答：JavaScript中变量存储在堆中还是栈中？  原始">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript-一篇文章体系化总结">
 <meta property="og:url" content="http://yjf-ll.github.io/2022/12/10/JavaScript-%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E4%BD%93%E7%B3%BB%E5%8C%96%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="Soul&#39;s Blog">
-<meta property="og:description" content="JavaScript体系总结 本文纯属个人学习笔记，如有错误，也请劳烦指出，谢谢~   数据类型一：js的数据类型分为原始类型和引用数据类型，我们目前可以简单认为原始类型的值是存放在栈中，而引用类型是存放在堆中的，这样有助于我们理解下面的知识。关于数据具体是存放在哪里的，想了解的详情可以看 (10 封私信 &#x2F; 28 条消息) JavaScript中变量存储在堆中还是栈中？ - 知乎 (z">
+<meta property="og:description" content="JavaScript基础原理解析笔记 本文纯属个人学习理解的东西（包含一些相关知识的编程题），如有错误，也请劳烦指出，共同成长，谢谢~  数据类型一：原始类型和引用类型 我们目前可以简单认为原始类型的值是存放在栈中，而引用类型是存放在堆中的，这样有助于我们理解下面的知识。关于数据具体是存放在哪里的，想具体了解的详情可以看某乎对于这个问题的回答：JavaScript中变量存储在堆中还是栈中？  原始">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="d:\project\yjf-ll.github.io\source\img\1670684300908.png">
+<meta property="og:image" content="c:\learn\blog\yjf-ll.github.io\source\img\1671168650183.png">
+<meta property="og:image" content="c:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\1671169678058.png">
+<meta property="og:image" content="c:\learn\blog\yjf-ll.github.io\source\img\1671171880101.png">
+<meta property="og:image" content="c:\learn\blog\yjf-ll.github.io\source\img\1671176981710.png">
+<meta property="og:image" content="c:\learn\blog\yjf-ll.github.io\source\img\1671161729223.png">
 <meta property="article:published_time" content="2022-12-10T17:00:59.000Z">
-<meta property="article:modified_time" content="2022-12-15T10:13:48.980Z">
+<meta property="article:modified_time" content="2022-12-16T08:53:47.918Z">
 <meta property="article:author" content="Soul">
 <meta property="article:tag" content="JavaScript">
 <meta name="twitter:card" content="summary_large_image">
@@ -222,7 +227,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          12k 字
+          14k 字
         
       </span>
     
@@ -233,7 +238,7 @@
         
         
         
-          101 分钟
+          116 分钟
         
       </span>
     
@@ -276,11 +281,13 @@
             
               <div class="markdown-body">
                 
-                <h1 id="JavaScript体系总结"><a href="#JavaScript体系总结" class="headerlink" title="JavaScript体系总结"></a>JavaScript体系总结</h1><blockquote>
-<p>本文纯属个人学习笔记，如有错误，也请劳烦指出，谢谢~</p>
+                <h1 id="JavaScript基础原理解析笔记"><a href="#JavaScript基础原理解析笔记" class="headerlink" title="JavaScript基础原理解析笔记"></a>JavaScript基础原理解析笔记</h1><blockquote>
+<p>本文纯属个人学习理解的东西（包含一些相关知识的编程题），如有错误，也请劳烦指出，共同成长，谢谢~</p>
 </blockquote>
-<ol>
-<li><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><h4 id="一：js的数据类型分为原始类型和引用数据类型，我们目前可以简单认为原始类型的值是存放在栈中，而引用类型是存放在堆中的，这样有助于我们理解下面的知识。关于数据具体是存放在哪里的，想了解的详情可以看-10-封私信-x2F-28-条消息-JavaScript中变量存储在堆中还是栈中？-知乎-zhihu-com"><a href="#一：js的数据类型分为原始类型和引用数据类型，我们目前可以简单认为原始类型的值是存放在栈中，而引用类型是存放在堆中的，这样有助于我们理解下面的知识。关于数据具体是存放在哪里的，想了解的详情可以看-10-封私信-x2F-28-条消息-JavaScript中变量存储在堆中还是栈中？-知乎-zhihu-com" class="headerlink" title="一：js的数据类型分为原始类型和引用数据类型，我们目前可以简单认为原始类型的值是存放在栈中，而引用类型是存放在堆中的，这样有助于我们理解下面的知识。关于数据具体是存放在哪里的，想了解的详情可以看 (10 封私信 &#x2F; 28 条消息) JavaScript中变量存储在堆中还是栈中？ - 知乎 (zhihu.com)"></a>一：js的数据类型分为原始类型和引用数据类型，我们目前可以简单认为原始类型的值是存放在栈中，而引用类型是存放在堆中的，这样有助于我们理解下面的知识。关于数据具体是存放在哪里的，想了解的详情可以看 <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/482433315">(10 封私信 &#x2F; 28 条消息) JavaScript中变量存储在堆中还是栈中？ - 知乎 (zhihu.com)</a></h4><p>原始类型：</p>
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><h4 id="一：原始类型和引用类型"><a href="#一：原始类型和引用类型" class="headerlink" title="一：原始类型和引用类型"></a>一：原始类型和引用类型</h4><blockquote>
+<p>我们目前可以简单认为原始类型的值是存放在栈中，而引用类型是存放在堆中的，这样有助于我们理解下面的知识。关于数据具体是存放在哪里的，想具体了解的详情可以看某乎对于这个问题的回答：JavaScript中变量存储在堆中还是栈中？</p>
+</blockquote>
+<p>原始类型：</p>
 <ul>
 <li>String</li>
 <li>Number</li>
@@ -313,7 +320,7 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-literal">null</span> <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">Object</span>) <span class="hljs-comment">//  false</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(&#123;&#125; <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">Object</span>)   <span class="hljs-comment">//  true</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>([] <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">Array</span>)    <span class="hljs-comment">//  true</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>([] <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">Object</span>)   <span class="hljs-comment">//  true</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>((<span class="hljs-function">() =&gt;</span> &#123;&#125;) <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">Function</span>) <span class="hljs-comment">//  true</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>((<span class="hljs-function">() =&gt;</span> &#123;&#125;) <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">Object</span>)   <span class="hljs-comment">//  true</span><br></code></pre></td></tr></table></figure>
 
 <p>该操作符判断的原理是去寻找类型是否存在于变量所属的原型链中，所以[] 既是Array类型也是Object类型（这里需要了解原型链相关的知识才能理解，但又因为是数据类型相关，所以放在这里）。因此我们也可以写一个方法来模拟instanceof功能</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript">     <br></code></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript">  <br></code></pre></td></tr></table></figure>
 
 
 </li>
@@ -331,7 +338,7 @@
 <p>也就是说NaN是number类型的，所以在对数据做一些判断的时候一定要注意NaN</p>
 </li>
 <li><p>0.1 + 0.2 !&#x3D;&#x3D; 0.3    &#x2F;&#x2F;    true</p>
-<p>这是因为js的精度导致的，解决办法简单的可以都乘100再进行计算，最后除100就可以了，或者直接使用相关库去处理是最稳妥的</p>
+<p>这是因为js的精度导致的，直接使用相关库去处理是最稳妥的</p>
 </li>
 </ul>
 <h4 id="四：深浅拷贝"><a href="#四：深浅拷贝" class="headerlink" title="四：深浅拷贝"></a>四：深浅拷贝</h4><p>这里先解释下为什么需要深浅拷贝</p>
@@ -350,8 +357,9 @@
 
 <p>因为有可能克隆的对象会存在互相引用的情况，所以也需要做下处理</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">deepClone</span>(<span class="hljs-params">source</span>) &#123;<br>  <span class="hljs-keyword">const</span> target = &#123;&#125;<br>  <span class="hljs-keyword">const</span> loopList = [<br>    &#123;<br>      <span class="hljs-attr">parent</span>: target,<br>      <span class="hljs-attr">key</span>: <span class="hljs-literal">undefined</span>,<br>      <span class="hljs-attr">data</span>: source<br>    &#125;<br>  ]<br>  <span class="hljs-keyword">while</span> (loopList.<span class="hljs-property">length</span>) &#123;<br>    <span class="hljs-keyword">const</span> node = loopList.<span class="hljs-title function_">pop</span>()<br>    <span class="hljs-keyword">const</span> parent = node.<span class="hljs-property">parent</span><br>    <span class="hljs-keyword">const</span> key = node.<span class="hljs-property">key</span><br>    <span class="hljs-keyword">const</span> data = node.<span class="hljs-property">data</span><br>    <span class="hljs-keyword">let</span> res = parent<br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> key !== <span class="hljs-string">&#x27;undefined&#x27;</span>) &#123;<br>      res = parent[key] = &#123;&#125;<br>    &#125;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> key <span class="hljs-keyword">in</span> data) &#123;<br>      <span class="hljs-keyword">if</span> (<span class="hljs-title class_">Object</span>.<span class="hljs-property">hasOwnProperty</span>.<span class="hljs-title function_">call</span>(data, key)) &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> data[key] === <span class="hljs-string">&#x27;object&#x27;</span> &amp;&amp; data[key] !== <span class="hljs-literal">null</span>) &#123;<br>          loopList.<span class="hljs-title function_">push</span>(&#123;<br>            <span class="hljs-attr">parent</span>: res,<br>            key,<br>            <span class="hljs-attr">data</span>: data[key]<br>          &#125;)<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>          res[key] = data[key]<br>        &#125;<br>      &#125;<br>    &#125;<br>  &#125;<br>  <span class="hljs-keyword">return</span> target<br>&#125;<br></code></pre></td></tr></table></figure>
-</li>
-<li><h3 id="作用域，闭包，变量，this"><a href="#作用域，闭包，变量，this" class="headerlink" title="作用域，闭包，变量，this"></a>作用域，闭包，变量，this</h3><h4 id="一：作用域"><a href="#一：作用域" class="headerlink" title="一：作用域"></a>一：作用域</h4><ul>
+
+<ol>
+<li><h3 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h3><h4 id="一：作用域"><a href="#一：作用域" class="headerlink" title="一：作用域"></a>一：作用域</h4><ul>
 <li>全局作用域：最外层的执行环境</li>
 <li>块级作用域：if语句中的{}里面，for循环</li>
 <li>函数作用域：声明的函数{}里面</li>
@@ -483,27 +491,57 @@
 </ul>
 </li>
 <li><h2 id="原型链与继承"><a href="#原型链与继承" class="headerlink" title="原型链与继承"></a>原型链与继承</h2><ul>
-<li><h4 id="原型链是什么"><a href="#原型链是什么" class="headerlink" title="原型链是什么"></a>原型链是什么</h4><p>先了解一些基础知识，构造函数会有一个prototype属性指向一个对象，该对象就叫原型对象，上面会有一些方法或者属性之类的，并且通过构造函数生成的实例会有__ proto __ 的属性指向构造函数的原型对象，这样做有啥好处呢，就是我们调用实例上某些方法的时候，假如实例没有该方法，就自动会往它指向的原型对象上去寻找该方法，因为原型对象也是其他构成函数生成的，假设原型对象也没有我们想要的方法的话，自然也会向上去找生成原型对象的构造函数上的原型对象，循环往复直到找不到为止，这种向上查找属性或者方法的链接关系就是原型链。</p>
-<p>简单概括就是（个人理解）：实例与构造函数上的原型对象之间一层一层的链接关系。</p>
+<li><h4 id="原型链是什么"><a href="#原型链是什么" class="headerlink" title="原型链是什么"></a>原型链是什么</h4><p>先说结论（个人理解）：原型链是指实例与构造函数指向的原型对象之间的关系，因为原型对象也是其他构造函数的实例，所以这个关系可能会非常深。</p>
+<p>有三个知识点：</p>
 <ul>
-<li><p>举个简单例子验证下原型之间的关系</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">Person</span>(<span class="hljs-params"></span>) &#123;&#125;<br><span class="hljs-keyword">const</span> p1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>()<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(p1.<span class="hljs-property">__proto__</span> === <span class="hljs-title class_">Person</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>);<br><span class="hljs-comment">//  true</span><br></code></pre></td></tr></table></figure>
+<li><p>构造函数有prototype属性指向一个对象，这个对象就是原型对象</p>
 </li>
-<li><p>所有构造函数的__ proto __ 都是指向Function的prototype</p>
+<li><p>原型对象有constructor属性，指向构造函数</p>
+</li>
+<li><p>实例有__ proto __属性指向构造函数的原型对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">Person</span>(<span class="hljs-params"></span>) &#123;&#125;<br><span class="hljs-keyword">const</span> p1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>()<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(p1.<span class="hljs-property">__proto__</span> === <span class="hljs-title class_">Person</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>)<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Person</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">constructor</span> === <span class="hljs-title class_">Person</span>)<br><span class="hljs-comment">//  true</span><br><span class="hljs-comment">//	true</span><br></code></pre></td></tr></table></figure>
+
+<p>他们之间的关系就是这样的：</p>
+<p><img src="C:\learn\blog\yjf-ll.github.io\source\img\1671168650183.png" srcset="/img/loading.gif" lazyload alt="1671168650183"></p>
+<p>因为构造函数是Function的实例，所以他们的关系是这样的：</p>
+<p><img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\1671169678058.png" srcset="/img/loading.gif" lazyload alt="1671169678058"></p>
+<p>我们来验证下这个关系</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">Person</span>(<span class="hljs-params"></span>) &#123;&#125;<br><span class="hljs-keyword">const</span> p1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>()<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Person</span> <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">Function</span>);<br><span class="hljs-comment">//  true</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Person</span>.<span class="hljs-property">__proto__</span> === <span class="hljs-title class_">Function</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>);<br><span class="hljs-comment">//  true</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(p1.<span class="hljs-property">__proto__</span>.<span class="hljs-property">constructor</span>.<span class="hljs-property">__proto__</span>.<span class="hljs-property">constructor</span> === <span class="hljs-title class_">Function</span>);<br><span class="hljs-comment">//  true</span><br></code></pre></td></tr></table></figure>
+
+<p>构造函数的原型对象又是Object的实例，然后Object的原型的__ proto __指向的是null，因此，关系变成这样了</p>
+<p><img src="C:\learn\blog\yjf-ll.github.io\source\img\1671171880101.png" srcset="/img/loading.gif" lazyload alt="1671171880101"></p>
+<p>老道理，验证下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">Person</span>(<span class="hljs-params"></span>) &#123;&#125;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Person</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">__proto__</span> === <span class="hljs-title class_">Object</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>);<br><span class="hljs-comment">//  true</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Function</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">__proto__</span> === <span class="hljs-title class_">Object</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>);<br><span class="hljs-comment">//  true</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Person</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">__proto__</span>.<span class="hljs-property">__proto__</span> === <span class="hljs-literal">null</span>);<br><span class="hljs-comment">//  true</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Function</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">__proto__</span>.<span class="hljs-property">__proto__</span> === <span class="hljs-literal">null</span>);<br><span class="hljs-comment">//  true</span><br></code></pre></td></tr></table></figure>
+
+<p>好，到这里其实上面的图对那些关系描述的还是挺清晰的，最模糊的来了，先看例子再结合最终图理解下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">//  Function 构造了它自己！！这就意味着</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Function</span> <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">Function</span>);<br><span class="hljs-comment">//  true</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Function</span>.<span class="hljs-property">__proto__</span> === <span class="hljs-title class_">Function</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>);<br><span class="hljs-comment">//  true</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Function</span>.<span class="hljs-property">__proto__</span>.<span class="hljs-property">constructor</span> === <span class="hljs-title class_">Function</span>);<br><span class="hljs-comment">//  true</span><br><br><span class="hljs-comment">//  而Object构造函数也是一个函数实例，这意味着</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Object</span> <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">Function</span>);<br><span class="hljs-comment">//  true</span><br><br><span class="hljs-comment">//  我们现在把Object当作一个普通的构造函数来看，这就可以解释下面的语句了</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Object</span> <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">Object</span>);<br><span class="hljs-comment">//  true</span><br><span class="hljs-comment">//  这是因为</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title class_">Object</span>.<span class="hljs-property">__proto__</span>.<span class="hljs-property">__proto__</span>.<span class="hljs-property">constructor</span> === <span class="hljs-title class_">Object</span>);<br><span class="hljs-comment">//  true</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="C:\learn\blog\yjf-ll.github.io\source\img\1671176981710.png" srcset="/img/loading.gif" lazyload alt="1671176981710"></p>
+<p>好，我个人理解的原型链的关系就是这样了。</p>
 </li>
 </ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">     <br></code></pre></td></tr></table></figure>
-
-
 </li>
-<li><h4 id="原型链起到什么作用"><a href="#原型链起到什么作用" class="headerlink" title="原型链起到什么作用"></a>原型链起到什么作用</h4><ul>
-<li>好处：因为实例与构造函数共享一个原型对象，这也意味着只要很小的开销就能实现某些功能上的复用，并且为原型对象添加一些方法之类的，所有构造函数生成的实例什么都不用干，就能直接使我们添加的新方法。</li>
-<li>坏处：原型对象是可以更改的，这也意味着不正当使用，会污染生成的实例，并造成一定影响。</li>
+<li><h4 id="原型链有什么用"><a href="#原型链有什么用" class="headerlink" title="原型链有什么用"></a>原型链有什么用</h4><p>原型链的作用就是，调用实例上的某个方法或属性时，假设该实例没有这些东西，那么就会自动向上查找其原型对象有没有，然后原型对象没有就又会向上去查找，直到找到null为止，这也解释了，为什么我们创建一个对象，明明啥也没添加，为什么还能调用某些方法的原因，这是因为那些方法在相应的原型上</p>
+</li>
+<li><h4 id="原型对象的优缺点"><a href="#原型对象的优缺点" class="headerlink" title="原型对象的优缺点"></a>原型对象的优缺点</h4><p>优点：</p>
+<ul>
+<li>实例默认共享原型对象上的属性与方法</li>
+<li>实例想要覆盖方法与属性比较简单，直接在实例上面添加同名的方法或属性可以了</li>
+<li>因为实例与构造函数共享一个原型对象，可以节省不必要的开销</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li><p>可以直接修改原型对象上的方法，污染全局，给人造成疑惑</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-title class_">Array</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">push</span> = <span class="hljs-function">() =&gt;</span> &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&#x27;浏览器崩溃了~&#x27;</span>)<br>&#125;<br><span class="hljs-keyword">const</span> arr = []<br>arr.<span class="hljs-title function_">push</span>(<span class="hljs-number">1</span>)<br><span class="hljs-comment">//  push error</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(arr)<br><span class="hljs-comment">//  []</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="C:\learn\blog\yjf-ll.github.io\source\img\1671161729223.png" srcset="/img/loading.gif" lazyload alt="1671161729223"></p>
+</li>
 </ul>
 </li>
+<li><h4 id="寄生式组合继承"><a href="#寄生式组合继承" class="headerlink" title="寄生式组合继承"></a>寄生式组合继承</h4><p>这里我也不一个一个去推了，直接来比较完美的方案吧</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">SuperType</span>(<span class="hljs-params">name</span>) &#123; <br> <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = name; <br> <span class="hljs-variable language_">this</span>.<span class="hljs-property">colors</span> = [<span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;blue&quot;</span>, <span class="hljs-string">&quot;green&quot;</span>]; <br>&#125; <br><span class="hljs-title class_">SuperType</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">sayName</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123; <br> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span>); <br>&#125;; <br><span class="hljs-keyword">function</span> <span class="hljs-title function_">SubType</span>(<span class="hljs-params">name, age</span>)&#123; <br> <span class="hljs-title class_">SuperType</span>.<span class="hljs-title function_">call</span>(<span class="hljs-variable language_">this</span>, name); <span class="hljs-comment">// 第二次调用 SuperType() </span><br> <span class="hljs-variable language_">this</span>.<span class="hljs-property">age</span> = age; <br>&#125; <br><span class="hljs-title class_">SubType</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">SuperType</span>(); <span class="hljs-comment">// 第一次调用 SuperType() </span><br><span class="hljs-title class_">SubType</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">constructor</span> = <span class="hljs-title class_">SubType</span>; <br><span class="hljs-title class_">SubType</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">sayAge</span> = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123; <br> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">age</span>); <br>&#125;; <br><br></code></pre></td></tr></table></figure></li>
 </ul>
 <ol>
-<li><h4 id="寄生"><a href="#寄生" class="headerlink" title="寄生"></a>寄生</h4></li>
 <li><h4 id="组合"><a href="#组合" class="headerlink" title="组合"></a>组合</h4></li>
 <li><h4 id="组合寄生"><a href="#组合寄生" class="headerlink" title="组合寄生"></a>组合寄生</h4></li>
 <li><h4 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h4></li>
