@@ -84,7 +84,32 @@ tags:
   该操作符判断的原理是去寻找类型是否存在于变量所属的原型链中，所以[] 既是Array类型也是Object类型（这里需要了解原型链相关的知识才能理解，但又因为是数据类型相关，所以放在这里）。因此我们也可以写一个方法来模拟instanceof功能
 
   ```javascript
+  //  1.判断对象的原型是否指向类型
+  //  2.依次循环判断原型的原型是否指向类型
+  function isType(source, type) {
+    let proto = source.__proto__
   
+    let flag = false
+  
+    while (proto) {
+      flag = proto.constructor === type
+      if (flag) break
+      proto = proto.__proto__
+    }
+  
+    return flag
+  }
+  
+  function Super() { }
+  
+  const obj = new Super()
+  
+  console.log(isType(obj, Super))
+  //	true
+  console.log(isType(obj, Object))
+  //	true
+  console.log(isType(obj, null))
+  //  false
   ```
 
   
@@ -819,21 +844,13 @@ function deepClone(source) {
       SuperType.call(this, name); // 第二次调用 SuperType() 
       this.age = age; 
      } 
-     SubType.prototype = new SuperType(); // 第一次调用 SuperType() 
+     SubType.prototype = Object.assign(SuperType.protype,{}); // 第一次调用 SuperType() 
      SubType.prototype.constructor = SubType; 
      SubType.prototype.sayAge = function() { 
       console.log(this.age); 
      }; 
      
      ```
-
-     
-
-   1. #### 组合
-
-   2. #### 组合寄生
-
-   3. #### 继承
 
 2. ### 事件循环（EventLoop）
 
