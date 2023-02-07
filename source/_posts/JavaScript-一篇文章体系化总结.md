@@ -1,5 +1,5 @@
 ---
-title: JavaScript-一篇文章体系化总结
+title: JavaScript-体系化总结-不定时更新
 date: 2022-12-10 17:00:59
 tags:
 - JavaScript
@@ -865,10 +865,6 @@ function deepClone(source) {
 
    async，await的作用
 
-4. ### Dom
-
-   1. 增删改查
-
 5. ### Bom
 
    1. window
@@ -879,7 +875,7 @@ function deepClone(source) {
 
 6. ### 垃圾回收
 
-   1. v8的
+   1. 标记清楚法，无引用就回收，会有循环引用产生的内存泄漏问题
 
 7. ### 常用api
 
@@ -891,9 +887,9 @@ function deepClone(source) {
    - Array
      - xxx.map(el => el)	对数组做层处理并返回处理后组成的新数组
      - xxx.filter(el => el !== xxx)	对数组做层过滤并返回过滤后组成的新数组
-     - xxx.find(el => el)	对数组做层处理并返回处理后的数据组成的新数组
-     - xxx.findIndex(el => el)	对数组做层处理并返回处理后的数据组成的新数组
-     - xxx.reduce((x,y) => x + y,0 )	对数组做层处理并返回处理后的数据组成的新数组
-     - xxx.forEach(el => el)	对数组做层处理并返回处理后的数据组成的新数组
+     - xxx.find(el => el === xxx)	寻找符合条件的第一个元素
+     - xxx.findIndex(el === xxx)	寻找符合条件的第一个元素的index
+     - xxx.reduce((x,y) => x + y,0 )	x为上一个返回的数据，整合处理
+     - xxx.forEach(el => el)	遍历数组
 
    
