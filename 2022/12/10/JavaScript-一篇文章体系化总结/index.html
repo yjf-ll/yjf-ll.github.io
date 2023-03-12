@@ -18,7 +18,7 @@
   
     <meta name="description" content="JavaScript基础原理解析笔记 本文纯属个人学习理解的东西（包含一些相关知识的编程题），如有错误，也请劳烦指出，共同成长，谢谢~  数据类型一：原始类型和引用类型 我们目前可以简单认为原始类型的值是存放在栈中，而引用类型是存放在堆中的，这样有助于我们理解下面的知识。关于数据具体是存放在哪里的，想具体了解的详情可以看某乎对于这个问题的回答：JavaScript中变量存储在堆中还是栈中？  原始">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JavaScript-一篇文章体系化总结">
+<meta property="og:title" content="JavaScript-体系化总结-不定时更新">
 <meta property="og:url" content="http://yjf-ll.github.io/2022/12/10/JavaScript-%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E4%BD%93%E7%B3%BB%E5%8C%96%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="Soul&#39;s Blog">
 <meta property="og:description" content="JavaScript基础原理解析笔记 本文纯属个人学习理解的东西（包含一些相关知识的编程题），如有错误，也请劳烦指出，共同成长，谢谢~  数据类型一：原始类型和引用类型 我们目前可以简单认为原始类型的值是存放在栈中，而引用类型是存放在堆中的，这样有助于我们理解下面的知识。关于数据具体是存放在哪里的，想具体了解的详情可以看某乎对于这个问题的回答：JavaScript中变量存储在堆中还是栈中？  原始">
@@ -30,7 +30,7 @@
 <meta property="og:image" content="c:\learn\blog\yjf-ll.github.io\source\img\1671176981710.png">
 <meta property="og:image" content="c:\learn\blog\yjf-ll.github.io\source\img\1671161729223.png">
 <meta property="article:published_time" content="2022-12-10T17:00:59.000Z">
-<meta property="article:modified_time" content="2023-01-12T07:56:52.565Z">
+<meta property="article:modified_time" content="2023-03-12T12:40:08.139Z">
 <meta property="article:author" content="Soul">
 <meta property="article:tag" content="JavaScript">
 <meta name="twitter:card" content="summary_large_image">
@@ -38,7 +38,7 @@
   
   
   
-  <title>JavaScript-一篇文章体系化总结 - Soul&#39;s Blog</title>
+  <title>JavaScript-体系化总结-不定时更新 - Soul&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -204,7 +204,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="JavaScript-一篇文章体系化总结"></span>
+            <span id="subtitle" data-typed-text="JavaScript-体系化总结-不定时更新"></span>
           
         </div>
 
@@ -276,7 +276,7 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">JavaScript-一篇文章体系化总结</h1>
+            <h1 style="display: none">JavaScript-体系化总结-不定时更新</h1>
             
             
               <div class="markdown-body">
@@ -551,10 +551,6 @@
 <li><h3 id="异步（Promise-x2F-async-x2F-await）"><a href="#异步（Promise-x2F-async-x2F-await）" class="headerlink" title="异步（Promise&#x2F;async&#x2F;await）"></a>异步（Promise&#x2F;async&#x2F;await）</h3><p>Promise的作用</p>
 <p>async，await的作用</p>
 </li>
-<li><h3 id="Dom"><a href="#Dom" class="headerlink" title="Dom"></a>Dom</h3><ol>
-<li>增删改查</li>
-</ol>
-</li>
 <li><h3 id="Bom"><a href="#Bom" class="headerlink" title="Bom"></a>Bom</h3><ol>
 <li>window</li>
 <li>navigotar</li>
@@ -564,7 +560,7 @@
 </ol>
 </li>
 <li><h3 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h3><ol>
-<li>v8的</li>
+<li>标记清楚法，无引用就回收，会有循环引用产生的内存泄漏问题</li>
 </ol>
 </li>
 <li><h3 id="常用api"><a href="#常用api" class="headerlink" title="常用api"></a>常用api</h3><ul>
@@ -579,10 +575,10 @@
 <ul>
 <li>xxx.map(el &#x3D;&gt; el)	对数组做层处理并返回处理后组成的新数组</li>
 <li>xxx.filter(el &#x3D;&gt; el !&#x3D;&#x3D; xxx)	对数组做层过滤并返回过滤后组成的新数组</li>
-<li>xxx.find(el &#x3D;&gt; el)	对数组做层处理并返回处理后的数据组成的新数组</li>
-<li>xxx.findIndex(el &#x3D;&gt; el)	对数组做层处理并返回处理后的数据组成的新数组</li>
-<li>xxx.reduce((x,y) &#x3D;&gt; x + y,0 )	对数组做层处理并返回处理后的数据组成的新数组</li>
-<li>xxx.forEach(el &#x3D;&gt; el)	对数组做层处理并返回处理后的数据组成的新数组</li>
+<li>xxx.find(el &#x3D;&gt; el &#x3D;&#x3D;&#x3D; xxx)	寻找符合条件的第一个元素</li>
+<li>xxx.findIndex(el &#x3D;&#x3D;&#x3D; xxx)	寻找符合条件的第一个元素的index</li>
+<li>xxx.reduce((x,y) &#x3D;&gt; x + y,0 )	x为上一个返回的数据，整合处理</li>
+<li>xxx.forEach(el &#x3D;&gt; el)	遍历数组</li>
 </ul>
 </li>
 </ul>
@@ -612,7 +608,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>JavaScript-一篇文章体系化总结</div>
+      <div>JavaScript-体系化总结-不定时更新</div>
       <div>http://yjf-ll.github.io/2022/12/10/JavaScript-一篇文章体系化总结/</div>
     </div>
     <div class="license-meta">
@@ -656,6 +652,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2023/03/12/three-js%E5%85%A5%E9%97%A8/" title="three.js入门">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">three.js入门</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">

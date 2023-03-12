@@ -16,25 +16,27 @@
   <meta name="author" content="Soul">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一：前言 js的数据分为基本类型和引用类型，基本类型的值是保存在栈内存中，引用类型的值是保存在堆内存中，并且用变量保存一个引用类型值，其实是保存指向该值的一个指针，因此对复制后的对象进行一些操作，也会影响被复制的对象，可以看一个简单的例子  12345let a &#x3D; &amp;#123;&amp;#125;let b &#x3D; ab.name &#x3D; &amp;#x27;soul&amp;#x27;console.log(a.name)&#x2F;">
+    <meta name="description" content="前言最近看了一些前端可以深入的领域，有可视化，低代码，跨平台，工程化等等，再结合最近找工作的状况，想着去了解一下可视化这个领域，所以对着three.js官网的demo写写，体验一下...  Three.js官网demo地址  https:&#x2F;&#x2F;threejs.org&#x2F;docs&#x2F;#manual&#x2F;zh&#x2F;introduction&#x2F;Creating-a-scene  写了下demo，简单叙述下里面比较重要的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JavaScript-深浅拷贝">
-<meta property="og:url" content="http://yjf-ll.github.io/2022/03/03/JavaScript-%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/index.html">
+<meta property="og:title" content="three.js入门">
+<meta property="og:url" content="http://yjf-ll.github.io/2023/03/12/three-js%E5%85%A5%E9%97%A8/index.html">
 <meta property="og:site_name" content="Soul&#39;s Blog">
-<meta property="og:description" content="一：前言 js的数据分为基本类型和引用类型，基本类型的值是保存在栈内存中，引用类型的值是保存在堆内存中，并且用变量保存一个引用类型值，其实是保存指向该值的一个指针，因此对复制后的对象进行一些操作，也会影响被复制的对象，可以看一个简单的例子  12345let a &#x3D; &amp;#123;&amp;#125;let b &#x3D; ab.name &#x3D; &amp;#x27;soul&amp;#x27;console.log(a.name)&#x2F;">
+<meta property="og:description" content="前言最近看了一些前端可以深入的领域，有可视化，低代码，跨平台，工程化等等，再结合最近找工作的状况，想着去了解一下可视化这个领域，所以对着three.js官网的demo写写，体验一下...  Three.js官网demo地址  https:&#x2F;&#x2F;threejs.org&#x2F;docs&#x2F;#manual&#x2F;zh&#x2F;introduction&#x2F;Creating-a-scene  写了下demo，简单叙述下里面比较重要的">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0f181316c7654cff8643c7ff7ae52338~tplv-k3u1fbpfcp-watermark.image">
-<meta property="article:published_time" content="2022-03-03T17:55:22.000Z">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/34d00b8e551a4a1c851c281092ed6d9a~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/caba4a34ccaa447491031d6cff591e98~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d6c38582beb34575a0c56e727f30d60c~tplv-k3u1fbpfcp-watermark.image">
+<meta property="article:published_time" content="2023-03-12T14:13:13.000Z">
 <meta property="article:modified_time" content="2023-03-12T12:40:08.139Z">
 <meta property="article:author" content="Soul">
-<meta property="article:tag" content="JavaScript">
-<meta property="article:tag" content="深浅拷贝">
+<meta property="article:tag" content="Javascript">
+<meta property="article:tag" content="Three.js">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0f181316c7654cff8643c7ff7ae52338~tplv-k3u1fbpfcp-watermark.image">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/34d00b8e551a4a1c851c281092ed6d9a~tplv-k3u1fbpfcp-watermark.image">
   
   
   
-  <title>JavaScript-深浅拷贝 - Soul&#39;s Blog</title>
+  <title>three.js入门 - Soul&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -200,7 +202,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="JavaScript-深浅拷贝"></span>
+            <span id="subtitle" data-typed-text="three.js入门"></span>
           
         </div>
 
@@ -211,8 +213,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-03-03 17:55" pubdate>
-          2022年3月3日 下午
+        <time datetime="2023-03-12 14:13" pubdate>
+          2023年3月12日 下午
         </time>
       </span>
     
@@ -223,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.1k 字
+          1.7k 字
         
       </span>
     
@@ -234,7 +236,7 @@
         
         
         
-          18 分钟
+          15 分钟
         
       </span>
     
@@ -272,58 +274,40 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">JavaScript-深浅拷贝</h1>
+            <h1 style="display: none">three.js入门</h1>
             
             
               <div class="markdown-body">
                 
-                <h5 id="一：前言"><a href="#一：前言" class="headerlink" title="一：前言"></a>一：前言</h5><blockquote>
-<p>js的数据分为基本类型和引用类型，基本类型的值是保存在栈内存中，引用类型的值是保存在堆内存中，并且用变量保存一个引用类型值，其实是保存指向该值的一个指针，因此对复制后的对象进行一些操作，也会影响被复制的对象，可以看一个简单的例子</p>
-</blockquote>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs stylus">let <span class="hljs-selector-tag">a</span> = &#123;&#125;<br>let <span class="hljs-selector-tag">b</span> = <span class="hljs-selector-tag">a</span><br><span class="hljs-selector-tag">b</span><span class="hljs-selector-class">.name</span> = <span class="hljs-string">&#x27;soul&#x27;</span><br>console<span class="hljs-selector-class">.log</span>(<span class="hljs-selector-tag">a</span>.name)<br><span class="hljs-comment">//  soul</span><br></code></pre></td></tr></table></figure>
-
+                <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><pre><code class="hljs">最近看了一些前端可以深入的领域，有可视化，低代码，跨平台，工程化等等，再结合最近找工作的状况，想着去了解一下可视化这个领域，所以对着three.js官网的demo写写，体验一下...
+</code></pre>
+<h3 id="Three-js"><a href="#Three-js" class="headerlink" title="Three.js"></a>Three.js</h3><p>官网demo地址</p>
 <blockquote>
-<p>解析：因为a保存的是{}在内存中的地址指针，所以b&#x3D;a，也就相当于b保存的也是{}在内存中的地址指针，所以我们对b进行一些操作，也会影响a</p>
+<p><a target="_blank" rel="noopener" href="https://threejs.org/docs/#manual/zh/introduction/Creating-a-scene">https://threejs.org/docs/#manual/zh/introduction/Creating-a-scene</a></p>
 </blockquote>
+<p>写了下demo，简单叙述下里面比较重要的概念，首先需要一个场景（存放物品模型），然后需要一个相机（相当于我们的视角），最后需要一个渲染器，把场景和视角给我们展现出来。</p>
 <ul>
-<li><p>基本类型</p>
-<ul>
-<li>string</li>
-<li>number</li>
-<li>boolean</li>
-<li>undefined</li>
-<li>null</li>
-<li>symbol</li>
+<li>场景（Scene）</li>
+<li>相机（Camera）分为透视相机和正交相机</li>
+<li>渲染器（WebGLRenderer）也有其他的渲染器</li>
 </ul>
-</li>
-<li><p>引用类型</p>
-<ul>
-<li>function</li>
-<li>array</li>
-<li>object</li>
-</ul>
-</li>
-</ul>
-<h5 id="二：浅拷贝"><a href="#二：浅拷贝" class="headerlink" title="二：浅拷贝"></a>二：浅拷贝</h5><p>简单的说，浅拷贝就是新建一个对象（在内存中开辟了新的地盘），来保存我们目标对象的值，这样，我们操作拷贝后的值，就不会影响最开始的对象了</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs stylus">let <span class="hljs-selector-tag">a</span> = &#123;&#125;<br>let <span class="hljs-selector-tag">b</span> = <span class="hljs-built_in">clone</span>(a)<br><span class="hljs-selector-tag">b</span><span class="hljs-selector-class">.name</span> = <span class="hljs-string">&#x27;soul&#x27;</span><br>console<span class="hljs-selector-class">.log</span>(<span class="hljs-selector-tag">a</span>.name)<br><span class="hljs-comment">//  undefined</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> <span class="hljs-variable constant_">THREE</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;https://unpkg.com/three/build/three.module.js&#x27;</span>;<br><span class="hljs-keyword">const</span> scene = <span class="hljs-keyword">new</span> <span class="hljs-variable constant_">THREE</span>.<span class="hljs-title class_">Scene</span>();<br><span class="hljs-keyword">const</span> camera = <span class="hljs-keyword">new</span> <span class="hljs-variable constant_">THREE</span>.<span class="hljs-title class_">PerspectiveCamera</span>(<span class="hljs-number">75</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0.1</span>,<span class="hljs-number">1000</span>);<br><span class="hljs-keyword">const</span> renderer = <span class="hljs-keyword">new</span> <span class="hljs-variable constant_">THREE</span>.<span class="hljs-title class_">WebGLRenderer</span>();<br><span class="hljs-comment">//	下面是设置渲染器的大小和添加进页面中,调用渲染方法</span><br>renderer.<span class="hljs-title function_">setSize</span>(<span class="hljs-number">100</span>,<span class="hljs-number">100</span>);<br><span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-title function_">appendChild</span>(renderer.<span class="hljs-property">domElement</span>);<br>renderer.<span class="hljs-title function_">render</span>(scene,camera)<br></code></pre></td></tr></table></figure>
 
-<p>可以看到，我们修改拷贝后的对象b，并不会影响原对象a的值，实现方法如下，然后该方法主要的思路是，假设obj是数组，那就新建一个数组通过遍历把所有的数据复制一边，假设是对象，也把对象的值复制一边返回出去，如果是其他类型的值，就直接返回</p>
-<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs haxe">  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">clone</span></span>(obj) &#123;<br>    <span class="hljs-keyword">if</span>(obj == <span class="hljs-literal">null</span> || obj instanceof Function) <span class="hljs-keyword">return</span> obj;<br>    <span class="hljs-keyword">if</span>(obj instanceof <span class="hljs-keyword">Array</span>) &#123;<br>      let <span class="hljs-keyword">new</span><span class="hljs-type">Obj</span> = []<br>      obj.forEach(item =&gt; <span class="hljs-keyword">new</span><span class="hljs-type">Obj</span>.push(item))<br>      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span><span class="hljs-type">Obj</span><br>    &#125;<br>    <span class="hljs-keyword">if</span>(obj instanceof Object) &#123;<br>      let <span class="hljs-keyword">new</span><span class="hljs-type">Obj</span> = &#123;&#125;<br>      <span class="hljs-keyword">for</span>(let item <span class="hljs-keyword">in</span> obj) &#123;<br>        <span class="hljs-keyword">new</span><span class="hljs-type">Obj</span>[item] = obj[item]<br>      &#125;<br>      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span><span class="hljs-type">Obj</span><br>    &#125;<br>    <span class="hljs-keyword">return</span> obj<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>仔细看过上面的方法就会发现，浅拷贝其实就是遍历了一层然后直接复制而已，那假如该对象有引用类型的值呢，那浅拷贝也只是把指向引用类型的指针拷贝过来，因此浅拷贝不适合复制有引用类型属性的对象，看以下demo</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs stylus">let <span class="hljs-selector-tag">a</span> = &#123;<br>  name: <span class="hljs-string">&#x27;soul&#x27;</span>,<br>  job: &#123;<br>    name: <span class="hljs-string">&#x27;前端&#x27;</span><br>  &#125;<br>&#125;<br>​<br>let <span class="hljs-selector-tag">b</span> = <span class="hljs-built_in">clone</span>(a)<br><span class="hljs-selector-tag">b</span><span class="hljs-selector-class">.name</span> = <span class="hljs-string">&#x27;zs&#x27;</span><br><span class="hljs-selector-tag">b</span><span class="hljs-selector-class">.job</span><span class="hljs-selector-class">.name</span> = <span class="hljs-string">&#x27;后端&#x27;</span><br>​<br>console<span class="hljs-selector-class">.log</span>(<span class="hljs-selector-tag">a</span>.name)<br>console<span class="hljs-selector-class">.log</span>(<span class="hljs-selector-tag">a</span><span class="hljs-selector-class">.job</span>.name)<br><span class="hljs-comment">//  soul</span><br><span class="hljs-comment">//  后端</span><br></code></pre></td></tr></table></figure>
-
-<blockquote>
-<p>这里a的name没受影响，a的job的name却收到影响，因为a的job是引用类型的值，保存的是指向该值在内存中的指针，我们进行浅拷贝，也就相当于复制了这个指针，因此a和b的job指向的是同一个值，所以修改b的job的name，a的job的name也变化了</p>
-</blockquote>
-<h5 id="三：深拷贝"><a href="#三：深拷贝" class="headerlink" title="三：深拷贝"></a>三：深拷贝</h5><p>分析浅拷贝后的弊端，我们发现，想要真正复制某个对象，遍历一层是不够的，因此，我们遍历的同时也要判断该属性的值是否为引用类型，如果是的话，应该再复制一层，使用递归可以很好的实现我们想要的，</p>
-<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs haxe">  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">deepClone</span></span>(obj) &#123;<br>    <span class="hljs-keyword">if</span>(obj == <span class="hljs-literal">null</span> || obj instanceof Function) <span class="hljs-keyword">return</span> obj;<br>    <span class="hljs-keyword">if</span>(obj instanceof <span class="hljs-keyword">Array</span>) &#123;<br>      let <span class="hljs-keyword">new</span><span class="hljs-type">Obj</span> = []<br>      <span class="hljs-comment">//  把数组中的项通过deepClone进行递归调用</span><br>      obj.forEach(item =&gt; <span class="hljs-keyword">new</span><span class="hljs-type">Obj</span>.push(deepClone(item)))<br>      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span><span class="hljs-type">Obj</span><br>    &#125;<br>    <span class="hljs-keyword">if</span>(obj instanceof Object) &#123;<br>      let <span class="hljs-keyword">new</span><span class="hljs-type">Obj</span> = &#123;&#125;<br>      <span class="hljs-keyword">for</span>(let item <span class="hljs-keyword">in</span> obj) &#123;<br>        <span class="hljs-comment">//  把对象中的值通过deepClone进行递归调用</span><br>        <span class="hljs-keyword">new</span><span class="hljs-type">Obj</span>[item] = deepClone(obj[item])<br>      &#125;<br>      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span><span class="hljs-type">Obj</span><br>    &#125;<br>    <span class="hljs-keyword">return</span> obj<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">  let b = deepClone(a)<br>  b.name = <span class="hljs-string">&#x27;zs&#x27;</span>;<br>  b.job.name = <span class="hljs-string">&#x27;ctrl c&#x27;</span><br>  b.job.time.start = <span class="hljs-number">12</span><br>  b.job.time.end = <span class="hljs-number">12</span><br>​<br>  //  使用深拷贝后，修改b的引用类型的值也不会影响a<br>  console.log(a)<br>  console.log(b)<br></code></pre></td></tr></table></figure>
+<p>渲染后的场景就是这样的：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/34d00b8e551a4a1c851c281092ed6d9a~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="1678604081437.png"></p>
+<p>我们有了场景后，就可以创建一些模型了，这里简单讲下，模型需要添加材质并且需要放在一个类似于容器的东西中，这样把东西放到场景中，就能看到了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> geometry = <span class="hljs-keyword">new</span> <span class="hljs-variable constant_">THREE</span>.<span class="hljs-title class_">BoxGeometry</span>( <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span> );<br><span class="hljs-keyword">const</span> material = <span class="hljs-keyword">new</span> <span class="hljs-variable constant_">THREE</span>.<span class="hljs-title class_">MeshBasicMaterial</span>( &#123; <span class="hljs-attr">color</span>: <span class="hljs-number">0x00ff00</span> &#125; );<br><span class="hljs-keyword">const</span> cube = <span class="hljs-keyword">new</span> <span class="hljs-variable constant_">THREE</span>.<span class="hljs-title class_">Mesh</span>( geometry, material );<br>scene.<span class="hljs-title function_">add</span>( cube );<br>camera.<span class="hljs-property">position</span>.<span class="hljs-property">z</span> = <span class="hljs-number">2</span>;<br>renderer.<span class="hljs-title function_">render</span>(scene,camera)<br></code></pre></td></tr></table></figure>
 
 
-<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0f181316c7654cff8643c7ff7ae52338~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="deepclone.png"></p>
-<h5 id="完结，js的深浅拷贝就谈到这里了，希望对你有所帮助，有更好的实现方法也可以分享出来一起交流哦，：）"><a href="#完结，js的深浅拷贝就谈到这里了，希望对你有所帮助，有更好的实现方法也可以分享出来一起交流哦，：）" class="headerlink" title="完结，js的深浅拷贝就谈到这里了，希望对你有所帮助，有更好的实现方法也可以分享出来一起交流哦，：）"></a>完结，js的深浅拷贝就谈到这里了，希望对你有所帮助，有更好的实现方法也可以分享出来一起交流哦，：）</h5>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/caba4a34ccaa447491031d6cff591e98~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="1678604452763.png"></p>
+<p>然后我们让他动起来，这里使用的requestAnimationFrame而不是定时器，这是最重要的一点是因为定时器再离开当前标签页还会运行，而它不会，所以性能没有它好</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> <span class="hljs-variable constant_">THREE</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;https://unpkg.com/three/build/three.module.js&#x27;</span>;<br><br><span class="hljs-keyword">const</span> scene = <span class="hljs-keyword">new</span> <span class="hljs-variable constant_">THREE</span>.<span class="hljs-title class_">Scene</span>();<br><span class="hljs-keyword">const</span> camera = <span class="hljs-keyword">new</span> <span class="hljs-variable constant_">THREE</span>.<span class="hljs-title class_">PerspectiveCamera</span>(<span class="hljs-number">75</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0.1</span>,<span class="hljs-number">1000</span>);<br><span class="hljs-keyword">const</span> renderer = <span class="hljs-keyword">new</span> <span class="hljs-variable constant_">THREE</span>.<span class="hljs-title class_">WebGLRenderer</span>();<br><span class="hljs-comment">//	下面是设置渲染器的大小和添加进页面中</span><br>renderer.<span class="hljs-title function_">setSize</span>(<span class="hljs-number">100</span>,<span class="hljs-number">100</span>);<br><span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-title function_">appendChild</span>(renderer.<span class="hljs-property">domElement</span>);<br><br><span class="hljs-keyword">const</span> geometry = <span class="hljs-keyword">new</span> <span class="hljs-variable constant_">THREE</span>.<span class="hljs-title class_">BoxGeometry</span>( <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span> );<br><span class="hljs-keyword">const</span> material = <span class="hljs-keyword">new</span> <span class="hljs-variable constant_">THREE</span>.<span class="hljs-title class_">MeshBasicMaterial</span>( &#123; <span class="hljs-attr">color</span>: <span class="hljs-number">0x00ff00</span> &#125; );<br><span class="hljs-keyword">const</span> cube = <span class="hljs-keyword">new</span> <span class="hljs-variable constant_">THREE</span>.<span class="hljs-title class_">Mesh</span>( geometry, material );<br>scene.<span class="hljs-title function_">add</span>( cube );<br>camera.<span class="hljs-property">position</span>.<span class="hljs-property">z</span> = <span class="hljs-number">2</span>;<br><span class="hljs-keyword">function</span> <span class="hljs-title function_">animate</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-title function_">requestAnimationFrame</span>( animate );<br>    cube.<span class="hljs-property">rotation</span>.<span class="hljs-property">x</span> += <span class="hljs-number">0.01</span>;<br>    cube.<span class="hljs-property">rotation</span>.<span class="hljs-property">y</span> += <span class="hljs-number">0.01</span>;<br>    renderer.<span class="hljs-title function_">render</span>( scene, camera );<br>&#125;<br><span class="hljs-title function_">animate</span>();<br></code></pre></td></tr></table></figure>
+
+
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d6c38582beb34575a0c56e727f30d60c~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="动画.gif"></p>
+<p>这样正方体就动起来了~</p>
+<p>好了，官网的demo就这些，具体的还需要多了解，记录下让自己的思路更清晰。</p>
+
                 
               </div>
             
@@ -331,34 +315,13 @@
             <div>
               <div class="post-metas my-3">
   
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/JavaScript/" class="category-chain-item">JavaScript</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
   
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/JavaScript/">#JavaScript</a>
+        <a href="/tags/Javascript/">#Javascript</a>
       
-        <a href="/tags/%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/">#深浅拷贝</a>
+        <a href="/tags/Three-js/">#Three.js</a>
       
     </div>
   
@@ -370,8 +333,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>JavaScript-深浅拷贝</div>
-      <div>http://yjf-ll.github.io/2022/03/03/JavaScript-深浅拷贝/</div>
+      <div>three.js入门</div>
+      <div>http://yjf-ll.github.io/2023/03/12/three-js入门/</div>
     </div>
     <div class="license-meta">
       
@@ -383,7 +346,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年3月3日</div>
+          <div>2023年3月12日</div>
         </div>
       
       
@@ -415,18 +378,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/04/12/React-BetterScroll-%E5%AE%9E%E7%8E%B0%E4%B8%8A%E6%8B%89%E5%8A%A0%E8%BD%BD%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0/" title="React-BetterScroll-实现上拉加载下拉刷新">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">React-BetterScroll-实现上拉加载下拉刷新</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/03/01/Flutter-Bloc-%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/" title="Flutter-Bloc-状态管理">
-                        <span class="hidden-mobile">Flutter-Bloc-状态管理</span>
+                      <a href="/2022/12/10/JavaScript-%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E4%BD%93%E7%B3%BB%E5%8C%96%E6%80%BB%E7%BB%93/" title="JavaScript-体系化总结-不定时更新">
+                        <span class="hidden-mobile">JavaScript-体系化总结-不定时更新</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
